@@ -1,0 +1,2998 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KASIRSOLO — Aplikasi Kasir & Manajemen Offline untuk Bisnis Indonesia | Sekali Bayar</title>
+<meta name="title" content="KASIRSOLO — Aplikasi Kasir & Manajemen Offline untuk Bisnis Indonesia | Sekali Bayar">
+<meta name="description" content="aplikasi kasir siap pakai untuk Toko, Bengkel, Konveksi, Masjid, Klinik, Apotek, dan Dapur SPPG. 100% offline, sekali bayar seumur hidup. Garansi resmi PT Mesin Kasir Solo. Trial 7 hari gratis.">
+<meta name="keywords" content="aplikasi kasir, aplikasi offline, aplikasi toko, aplikasi bengkel, aplikasi masjid, aplikasi klinik, aplikasi apotek, aplikasi konveksi, aplikasi dapur, aplikasi sppg, aplikasi tpa, aplikasi tpq, pos indonesia, point of sale offline, kasir solo, pt mesin kasir solo">
+<meta name="author" content="Amin Maghfuri — PT Mesin Kasir Solo">
+<meta name="robots" content="index, follow">
+<meta name="language" content="Indonesian">
+<meta name="theme-color" content="#FF5F1F">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kasirsolo.my.id/">
+<meta property="og:title" content="KASIRSOLO — Aplikasi Manajemen Offline Bisnis Indonesia">
+<meta property="og:description" content="aplikasi kasir siap pakai, 100% offline, sekali bayar seumur hidup. Trial 7 hari gratis.">
+<meta property="og:locale" content="id_ID">
+<meta property="og:site_name" content="KASIRSOLO">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="KASIRSOLO — Aplikasi Manajemen Offline Bisnis Indonesia">
+<meta name="twitter:description" content="aplikasi kasir siap pakai, 100% offline, sekali bayar seumur hidup. Trial 7 hari gratis.">
+<link rel="canonical" href="https://kasirsolo.my.id/">
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="apple-touch-icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "PT Mesin Kasir Solo",
+  "alternateName": "KASIRSOLO",
+  "url": "https://kasirsolo.my.id",
+  "founder": { "@type": "Person", "name": "Amin Maghfuri" },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+62-881-6566-935",
+    "contactType": "sales",
+    "areaServed": "ID",
+    "availableLanguage": "Indonesian"
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Perum Graha Tiara 2 B1, Gumpang 07/01",
+    "addressLocality": "Kartasura",
+    "addressRegion": "Jawa Tengah",
+    "postalCode": "57169",
+    "addressCountry": "ID"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "KASIRSOLO",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web Browser",
+  "offers": {
+    "@type": "Offer",
+    "price": "200000",
+    "priceCurrency": "IDR",
+    "description": "Sekali bayar, seumur hidup"
+  },
+  "featureList": [
+    "Offline first",
+    "Single file HTML",
+    "Mobile responsive",
+    "PWA ready",
+    "No subscription",
+    "7 days free trial"
+  ]
+}
+</script>
+<style>
+/* =====================================================
+   DESIGN TOKENS — Brand Guidelines KASIRSOLO
+===================================================== */
+:root {
+  --primary: #FF5F1F;
+  --primary-hover: #FF7A3D;
+  --primary-soft: #FFF1E8;
+  --grad-start: #F7A237;
+  --grad-mid: #FF5F1F;
+  --grad-end: #E5451B;
+  --gold: #FFCE55;
+  --dark: #0D0D0D;
+  --dark-soft: #1A1A1A;
+  --text: #1A1A1A;
+  --text-muted: #6B7280;
+  --bg: #FFFFFF;
+  --bg-alt: #F7F7F5;
+  --bg-warm: #FFF8F3;
+  --border: rgba(13,13,13,.08);
+  --border-dark: rgba(255,255,255,.12);
+  --success: #16A34A;
+  --shadow-sm: 0 1px 2px rgba(13,13,13,.06);
+  --shadow-md: 0 8px 24px rgba(13,13,13,.08);
+  --shadow-lg: 0 20px 48px rgba(13,13,13,.12);
+  --shadow-brand: 0 16px 40px rgba(255,95,31,.28);
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 999px;
+  --ease: cubic-bezier(.16,1,.3,1);
+  --font-head: 'Poppins', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --nav-h: 72px;
+  --gradient-brand: linear-gradient(135deg, #F7A237, #FF5F1F, #E5451B);
+  --gradient-subtle: linear-gradient(135deg, #FFF5EE, #FFE8D6);
+  --gradient-dark: linear-gradient(160deg, #0D0D0D 0%, #1A1A1A 42%, #E5451B 160%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--nav-h) + 12px); zoom: 0.9; }
+body {
+  font-family: var(--font-body);
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img, svg { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; }
+button, input, select, textarea { font: inherit; }
+button { cursor: pointer; border: none; background: none; color: inherit; }
+h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.2; color: var(--text); letter-spacing: -.02em; }
+:focus-visible { outline: 2.5px solid var(--primary); outline-offset: 3px; border-radius: 4px; }
+.container { width: min(1180px, 100% - 40px); margin-inline: auto; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+
+/* Reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .7s var(--ease), transform .7s var(--ease);
+}
+.reveal.is-visible { opacity: 1; transform: none; }
+.reveal-delay-1 { transition-delay: .08s; }
+.reveal-delay-2 { transition-delay: .16s; }
+.reveal-delay-3 { transition-delay: .24s; }
+.reveal-delay-4 { transition-delay: .32s; }
+
+/* Eyebrow + section head */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: 12.5px;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+.eyebrow::before {
+  content: "";
+  width: 18px; height: 2px;
+  border-radius: 99px;
+  background: var(--gradient-brand);
+}
+.section-head { max-width: 640px; margin: 0 auto 32px; text-align: center; }
+.section-head .eyebrow { justify-content: center; }
+.section-head .eyebrow::before { display: none; }
+.section-head h2 {
+  font-size: clamp(24px, 3.4vw, 34px);
+  font-weight: 700;
+  margin: 12px 0 10px;
+}
+.section-head h2 span {
+  background: var(--gradient-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.section-head p { color: var(--text-muted); font-size: 15px; }
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 10px 18px;
+  border-radius: var(--radius-full);
+  transition: transform .25s var(--ease), box-shadow .25s var(--ease), background .25s var(--ease), border-color .25s var(--ease), color .25s var(--ease);
+  white-space: nowrap;
+  border: 1.5px solid transparent;
+}
+.btn:active { transform: translateY(0) scale(.98); }
+.btn-primary {
+  background: var(--gradient-brand);
+  color: #fff;
+  box-shadow: var(--shadow-brand);
+}
+.btn-primary:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 22px 46px rgba(255,95,31,.36); }
+.btn-ghost {
+  color: #fff;
+  border-color: rgba(255,255,255,.45);
+  background: rgba(255,255,255,.06);
+  backdrop-filter: blur(8px);
+}
+.btn-ghost:hover { background: rgba(255,255,255,.14); border-color: #fff; }
+.btn-outline {
+  background: transparent;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+  box-shadow: none;
+}
+.btn-outline:hover { background: rgba(255,95,31,.08); border-color: var(--primary); color: var(--primary); }
+.btn-dark {
+  background: var(--dark);
+  color: #fff;
+}
+.btn-dark:hover { background: var(--dark-soft); transform: translateY(-2px); }
+.btn-sm { padding: 8px 13px; font-size: 12.5px; }
+.btn-lg { padding: 12px 24px; font-size: 14.5px; }
+.btn .ico { font-size: 1.05em; line-height: 1; }
+
+/* =====================================================
+   NAV
+===================================================== */
+.site-header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 100;
+  height: var(--nav-h);
+  transition: background .35s var(--ease), box-shadow .35s var(--ease), backdrop-filter .35s var(--ease);
+}
+.site-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(13,13,13,.55);
+  backdrop-filter: blur(14px);
+  opacity: 0;
+  transition: opacity .35s var(--ease);
+  border-bottom: 1px solid transparent;
+}
+.site-header.is-scrolled::before {
+  opacity: 1;
+  border-bottom-color: var(--border-dark);
+}
+.site-header .container {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand-logo {
+  width: 38px; height: 38px; flex-shrink: 0;
+  border-radius: 8px;
+  filter: drop-shadow(0 4px 12px rgba(255,95,31,.35));
+}
+.brand-text { display: flex; flex-direction: column; line-height: 1.1; }
+.brand-text strong {
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: 18px;
+  color: #fff;
+  letter-spacing: -.01em;
+}
+.brand-text span {
+  font-size: 10.5px;
+  color: rgba(255,255,255,.62);
+  letter-spacing: .02em;
+}
+.nav-links { display: none; align-items: center; gap: 28px; }
+.nav-links a {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255,255,255,.72);
+  position: relative;
+  padding: 4px 0;
+  transition: color .2s;
+}
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -4px;
+  width: 0; height: 2px;
+  background: var(--gradient-brand);
+  border-radius: 99px;
+  transition: width .3s var(--ease);
+}
+.nav-links a:hover, .nav-links a.active { color: #fff; }
+.nav-links a.active::after, .nav-links a:hover::after { width: 100%; }
+.nav-actions { display: flex; align-items: center; gap: 10px; }
+.nav-actions .btn-ghost { display: none; }
+.menu-toggle {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.12);
+}
+.menu-toggle span,
+.menu-toggle span::before,
+.menu-toggle span::after {
+  display: block;
+  width: 18px; height: 2px;
+  background: currentColor;
+  border-radius: 99px;
+  position: relative;
+  transition: transform .25s var(--ease), opacity .2s;
+}
+.menu-toggle span::before,
+.menu-toggle span::after {
+  content: "";
+  position: absolute;
+  left: 0;
+}
+.menu-toggle span::before { top: -6px; }
+.menu-toggle span::after { top: 6px; }
+.menu-toggle.is-open span { background: transparent; }
+.menu-toggle.is-open span::before { top: 0; transform: rotate(45deg); }
+.menu-toggle.is-open span::after { top: 0; transform: rotate(-45deg); }
+.header-progress {
+  position: absolute;
+  left: 0; bottom: 0;
+  height: 2px;
+  width: 0%;
+  background: var(--gradient-brand);
+  z-index: 3;
+  transition: width .1s linear;
+}
+
+/* Mobile drawer */
+.mobile-nav {
+  position: fixed;
+  inset: var(--nav-h) 0 auto 0;
+  z-index: 99;
+  background: rgba(13,13,13,.96);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-dark);
+  padding: 20px;
+  display: grid;
+  gap: 8px;
+  transform: translateY(-120%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform .4s var(--ease), opacity .3s;
+}
+.mobile-nav.is-open {
+  transform: none;
+  opacity: 1;
+  pointer-events: auto;
+}
+.mobile-nav a {
+  display: block;
+  padding: 14px 16px;
+  border-radius: 12px;
+  color: rgba(255,255,255,.85);
+  font-weight: 500;
+  transition: background .2s;
+}
+.mobile-nav a:hover { background: rgba(255,255,255,.06); color: #fff; }
+.mobile-nav .btn { width: 100%; margin-top: 8px; }
+
+@media (min-width: 960px) {
+  .nav-links { display: flex; }
+  .nav-actions .btn-ghost { display: inline-flex; }
+  .menu-toggle { display: none; }
+}
+
+/* =====================================================
+   HERO
+===================================================== */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  padding: calc(var(--nav-h) + 40px) 0 72px;
+  color: #fff;
+  overflow: hidden;
+  background: var(--gradient-dark);
+}
+.hero-mesh {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.hero-mesh .orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: .45;
+  animation: float 16s ease-in-out infinite;
+}
+.hero-mesh .orb-1 {
+  width: 520px; height: 520px;
+  background: radial-gradient(circle, var(--grad-start), transparent 68%);
+  top: -180px; right: -120px;
+}
+.hero-mesh .orb-2 {
+  width: 420px; height: 420px;
+  background: radial-gradient(circle, var(--primary), transparent 70%);
+  bottom: -160px; left: -100px;
+  animation-delay: -7s;
+}
+.hero-mesh .orb-3 {
+  width: 280px; height: 280px;
+  background: radial-gradient(circle, var(--gold), transparent 70%);
+  top: 40%; left: 45%;
+  opacity: .18;
+  animation-delay: -3s;
+}
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, #000 20%, transparent 75%);
+  opacity: .7;
+}
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(18px, -22px) scale(1.04); }
+}
+.hero .container {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: 48px;
+  align-items: center;
+}
+@media (min-width: 980px) {
+  .hero .container { grid-template-columns: 1.08fr .92fr; gap: 40px; }
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: var(--radius-full);
+  background: rgba(255,206,85,.12);
+  border: 1px solid rgba(255,206,85,.28);
+  color: var(--gold);
+  font-family: var(--font-head);
+  font-size: 12.5px;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+.hero-badge .dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 0 0 rgba(255,206,85,.6);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(255,206,85,.55); }
+  70% { box-shadow: 0 0 0 8px rgba(255,206,85,0); }
+  100% { box-shadow: 0 0 0 0 rgba(255,206,85,0); }
+}
+.hero h1 {
+  font-size: clamp(32px, 5.2vw, 56px);
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 18px;
+  max-width: 15ch;
+}
+.hero h1 em {
+  font-style: normal;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #F7A237, #FF5F1F, #E5451B);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.hero .lead {
+  color: rgba(255,255,255,.72);
+  font-size: clamp(15.5px, 1.6vw, 17.5px);
+  max-width: 520px;
+  margin-bottom: 28px;
+}
+.hero-cta { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; }
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  max-width: 480px;
+}
+@media (min-width: 560px) {
+  .hero-stats { grid-template-columns: repeat(4, 1fr); }
+}
+.stat-card {
+  padding: 14px 12px;
+  border-radius: 14px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.1);
+  backdrop-filter: blur(8px);
+  text-align: center;
+}
+.stat-card strong {
+  display: block;
+  font-family: var(--font-head);
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.1;
+}
+.stat-card span {
+  font-size: 11.5px;
+  color: rgba(255,255,255,.55);
+}
+
+/* Phone mockup */
+.hero-visual {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  perspective: 1400px;
+}
+.phone {
+  width: min(300px, 78vw);
+  aspect-ratio: 9 / 18.5;
+  border-radius: 36px;
+  background: linear-gradient(160deg, #1f1f1f, #0a0a0a);
+  border: 2px solid rgba(255,255,255,.12);
+  box-shadow:
+    0 40px 80px rgba(0,0,0,.45),
+    0 0 0 1px rgba(255,255,255,.05) inset,
+    0 0 60px rgba(255,95,31,.18);
+  padding: 12px;
+  position: relative;
+  transform: rotateY(-8deg) rotateX(4deg);
+  transition: transform .5s var(--ease);
+  will-change: transform;
+}
+.phone:hover { transform: rotateY(0) rotateX(0); }
+.phone-notch {
+  position: absolute;
+  top: 18px; left: 50%;
+  transform: translateX(-50%);
+  width: 88px; height: 22px;
+  background: #000;
+  border-radius: 99px;
+  z-index: 3;
+}
+.phone-screen {
+  height: 100%;
+  border-radius: 28px;
+  overflow: hidden;
+  background: #fff;
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+}
+.phone-appbar {
+  background: var(--gradient-brand);
+  color: #fff;
+  padding: 36px 16px 14px;
+}
+.phone-appbar small {
+  display: block;
+  opacity: .85;
+  font-size: 11px;
+  margin-bottom: 2px;
+}
+.phone-appbar strong {
+  font-family: var(--font-head);
+  font-size: 16px;
+}
+.phone-body { padding: 14px; flex: 1; display: flex; flex-direction: column; gap: 10px; background: #F8F8F6; }
+.phone-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.phone-tile {
+  background: #fff;
+  border-radius: 14px;
+  padding: 12px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+}
+.phone-tile .label { font-size: 11px; color: var(--text-muted); }
+.phone-tile .value {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 15px;
+  margin-top: 2px;
+}
+.phone-tile.wide { grid-column: 1 / -1; }
+.phone-list { display: grid; gap: 8px; }
+.phone-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  font-size: 12.5px;
+}
+.phone-item .dot-ico {
+  width: 32px; height: 32px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: var(--primary-soft);
+  font-size: 14px;
+  flex-shrink: 0;
+}
+.phone-item .meta { flex: 1; min-width: 0; }
+.phone-item .meta b { display: block; font-size: 12.5px; }
+.phone-item .meta span { color: var(--text-muted); font-size: 11px; }
+.phone-item .amt {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--primary);
+}
+.phone-nav {
+  margin-top: auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  background: #fff;
+  border-top: 1px solid var(--border);
+  padding: 10px 8px 14px;
+}
+.phone-nav span {
+  text-align: center;
+  font-size: 10px;
+  color: var(--text-muted);
+  display: grid;
+  gap: 2px;
+  justify-items: center;
+}
+.phone-nav span.active { color: var(--primary); font-weight: 600; }
+.phone-nav span i { font-style: normal; font-size: 14px; }
+
+.float-chip {
+  position: absolute;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: rgba(255,255,255,.96);
+  color: var(--text);
+  box-shadow: var(--shadow-lg);
+  font-size: 12.5px;
+  font-weight: 600;
+  animation: bob 5s ease-in-out infinite;
+  border: 1px solid var(--border);
+}
+.float-chip.top-left { top: 12%; left: -8%; animation-delay: -.8s; }
+.float-chip.bottom-right { bottom: 16%; right: -6%; animation-delay: -2.2s; }
+.float-chip .emoji { font-size: 16px; }
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+@media (max-width: 979px) {
+  .float-chip.top-left { left: 0; }
+  .float-chip.bottom-right { right: 0; }
+}
+
+/* =====================================================
+   TRUST STRIP
+===================================================== */
+.trust {
+  background: var(--bg-alt);
+  border-block: 1px solid var(--border);
+  padding: 22px 0;
+}
+.trust-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 28px;
+  align-items: center;
+}
+.trust-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+.trust-item b { color: var(--text); }
+
+/* =====================================================
+   PROBLEM / SOLUTION
+===================================================== */
+.problem {
+  padding: 64px 0;
+  background: var(--bg);
+}
+.problem-grid {
+  display: grid;
+  gap: 20px;
+}
+@media (min-width: 880px) {
+  .problem-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
+}
+.panel {
+  border-radius: var(--radius-lg);
+  padding: 32px 28px;
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.panel-bad {
+  background: #fff;
+}
+.panel-good {
+  background: linear-gradient(160deg, #1A1A1A, #0D0D0D);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: var(--shadow-lg);
+}
+.panel-good h3, .panel-good p { color: #fff; }
+.panel .tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-head);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  padding: 6px 12px;
+  border-radius: 99px;
+}
+.panel-bad .tag {
+  background: #FEE2E2;
+  color: #B91C1C;
+}
+.panel-good .tag {
+  background: rgba(255,95,31,.18);
+  color: #FFB088;
+}
+.panel h3 {
+  font-size: clamp(22px, 2.4vw, 28px);
+  margin-bottom: 12px;
+}
+.panel p { color: var(--text-muted); margin-bottom: 20px; font-size: 15px; }
+.panel-good p { color: rgba(255,255,255,.68); }
+.checklist { display: grid; gap: 12px; }
+.checklist li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 14.5px;
+  line-height: 1.45;
+}
+.checklist .mark {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  font-size: 12px;
+  margin-top: 1px;
+}
+.panel-bad .mark { background: #FEE2E2; color: #B91C1C; }
+.panel-good .mark { background: rgba(255,95,31,.2); color: #FFB088; }
+
+/* =====================================================
+   APPS / PRODUK
+===================================================== */
+.apps {
+  padding: 64px 0;
+  background: var(--bg-warm);
+  position: relative;
+}
+.apps::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 50% 40% at 10% 20%, rgba(247,162,55,.12), transparent),
+    radial-gradient(ellipse 40% 30% at 90% 80%, rgba(255,95,31,.1), transparent);
+  pointer-events: none;
+}
+.apps .container { position: relative; z-index: 1; }
+.filter-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+.filter-tab {
+  padding: 10px 18px;
+  border-radius: var(--radius-full);
+  font-family: var(--font-head);
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: #fff;
+  border: 1px solid var(--border);
+  transition: all .25s var(--ease);
+}
+.filter-tab:hover { color: var(--primary); border-color: rgba(255,95,31,.35); }
+.filter-tab.active {
+  color: #fff;
+  background: var(--gradient-brand);
+  border-color: transparent;
+  box-shadow: var(--shadow-brand);
+}
+.apps-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+@media (min-width: 640px) {
+  .apps-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1000px) {
+  .apps-grid { grid-template-columns: repeat(4, 1fr); }
+}
+.app-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 24px 20px 20px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  overflow: hidden;
+  transition: transform .3s var(--ease), box-shadow .3s var(--ease), border-color .3s;
+}
+.app-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--gradient-brand);
+  opacity: 0;
+  transition: opacity .3s;
+}
+.app-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(255,95,31,.25);
+}
+.app-card:hover::before { opacity: 1; }
+.app-card .badge-hot {
+  position: absolute;
+  top: 14px; right: 14px;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--font-head);
+  background: linear-gradient(135deg, #FFCE55, #F7A237);
+  color: #5C3A00;
+  padding: 4px 10px;
+  border-radius: 99px;
+}
+.app-card .ico-wrap {
+  width: 56px; height: 56px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  font-size: 30px;
+  background: transparent;
+  border: 1px solid rgba(255,95,31,.08);
+}
+.app-card h3 {
+  font-size: 18px;
+  font-weight: 700;
+}
+.app-card .code {
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+  color: var(--primary);
+  font-weight: 600;
+  letter-spacing: .04em;
+}
+.app-card .desc {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  flex: 1;
+}
+.app-card .meta {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 4px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.app-card .price {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--text);
+  line-height: 1.1;
+}
+.app-card .price small {
+  display: block;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(13,13,13,.62);
+  backdrop-filter: blur(6px);
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s;
+}
+.modal-overlay.is-open { opacity: 1; pointer-events: auto; }
+.modal {
+  width: min(480px, 100%);
+  max-height: min(86vh, 720px);
+  overflow: auto;
+  background: #fff;
+  border-radius: 24px;
+  padding: 28px 24px 24px;
+  position: relative;
+  box-shadow: var(--shadow-lg);
+  transform: translateY(16px) scale(.98);
+  transition: transform .35s var(--ease);
+}
+.modal-overlay.is-open .modal { transform: none; }
+.modal-close {
+  position: absolute;
+  top: 14px; right: 14px;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--bg-alt);
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  color: var(--text-muted);
+  transition: background .2s, color .2s;
+}
+.modal-close:hover { background: var(--primary-soft); color: var(--primary); }
+.modal .ico {
+  width: 56px; height: 56px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  font-size: 28px;
+  background: var(--gradient-subtle);
+  margin-bottom: 14px;
+}
+.modal h3 { font-size: 24px; margin-bottom: 6px; }
+.modal .target {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+.modal .price-lg {
+  font-family: var(--font-head);
+  font-size: 28px;
+  font-weight: 800;
+  background: var(--gradient-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 18px;
+}
+.modal .price-lg small {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: var(--font-body);
+  color: var(--text-muted);
+  -webkit-text-fill-color: var(--text-muted);
+  margin-top: 2px;
+}
+.modal ul { display: grid; gap: 10px; margin-bottom: 22px; }
+.modal ul li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 14.5px;
+}
+.modal-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.modal-actions .btn { flex: 1; min-width: 140px; }
+
+/* =====================================================
+   HOW IT WORKS
+===================================================== */
+.how {
+  padding: 64px 0;
+  background: var(--bg);
+}
+.steps {
+  display: grid;
+  gap: 18px;
+  counter-reset: step;
+}
+@media (min-width: 800px) {
+  .steps { grid-template-columns: repeat(4, 1fr); gap: 16px; }
+}
+.step {
+  position: relative;
+  padding: 28px 22px;
+  border-radius: 20px;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  transition: transform .3s var(--ease), box-shadow .3s, border-color .3s;
+}
+.step:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(255,95,31,.2);
+  background: #fff;
+}
+.step::before {
+  counter-increment: step;
+  content: "0" counter(step);
+  display: block;
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: 32px;
+  line-height: 1;
+  background: var(--gradient-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 14px;
+  opacity: .9;
+}
+.step .step-ico {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: var(--primary-soft);
+  font-size: 20px;
+  margin-bottom: 14px;
+}
+.step h3 { font-size: 17px; margin-bottom: 8px; }
+.step p { font-size: 13.5px; color: var(--text-muted); }
+
+/* =====================================================
+   FEATURES
+===================================================== */
+.features {
+  padding: 64px 0;
+  background: var(--dark);
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+.features::before {
+  content: "";
+  position: absolute;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,95,31,.22), transparent 70%);
+  top: -200px; right: -180px;
+  pointer-events: none;
+}
+.features .section-head h2,
+.features .section-head p { color: #fff; }
+.features .section-head p { color: rgba(255,255,255,.62); }
+.features .eyebrow { color: #FFB088; }
+.feat-grid {
+  display: grid;
+  gap: 16px;
+  position: relative;
+  z-index: 1;
+}
+@media (min-width: 700px) {
+  .feat-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1000px) {
+  .feat-grid { grid-template-columns: repeat(3, 1fr); }
+}
+.feat-card {
+  padding: 26px 22px;
+  border-radius: 20px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.08);
+  backdrop-filter: blur(8px);
+  transition: background .3s, border-color .3s, transform .3s var(--ease);
+}
+.feat-card:hover {
+  background: rgba(255,255,255,.07);
+  border-color: rgba(255,95,31,.35);
+  transform: translateY(-4px);
+}
+.feat-card .ico {
+  width: 48px; height: 48px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  background: rgba(255,95,31,.15);
+  margin-bottom: 16px;
+}
+.feat-card h3 {
+  color: #fff;
+  font-size: 17px;
+  margin-bottom: 8px;
+}
+.feat-card p {
+  color: rgba(255,255,255,.58);
+  font-size: 14px;
+}
+
+/* =====================================================
+   VALUE / PRICING STRIP
+===================================================== */
+.value {
+  padding: 64px 0;
+  background: var(--bg);
+}
+.value-wrap {
+  display: grid;
+  gap: 28px;
+  align-items: center;
+}
+@media (min-width: 900px) {
+  .value-wrap { grid-template-columns: 1fr 1fr; gap: 48px; }
+}
+.value-copy h2 {
+  font-size: clamp(26px, 3.4vw, 38px);
+  margin: 12px 0 14px;
+}
+.value-copy p {
+  color: var(--text-muted);
+  margin-bottom: 22px;
+  font-size: 15.5px;
+}
+.value-points { display: grid; gap: 14px; margin-bottom: 28px; }
+.value-point {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  text-align: left;
+}
+.value-point .num {
+  width: 28px; height: 28px;
+  border-radius: 8px;
+  background: var(--gradient-brand);
+  color: #fff;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 13px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.value-point strong { display: block; font-size: 15px; margin-bottom: 2px; }
+.value-point span { font-size: 13.5px; color: var(--text-muted); }
+.price-card {
+  background: linear-gradient(160deg, #1A1A1A, #0D0D0D);
+  color: #fff;
+  border-radius: 24px;
+  padding: 24px 22px;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow: hidden;
+}
+.price-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 50% at 100% 0%, rgba(255,95,31,.28), transparent 60%);
+  pointer-events: none;
+}
+.price-card > * { position: relative; z-index: 1; }
+.price-card .ribbon {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,206,85,.15);
+  color: var(--gold);
+  border: 1px solid rgba(255,206,85,.3);
+  padding: 6px 12px;
+  border-radius: 99px;
+  font-family: var(--font-head);
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+.price-card h3 {
+  color: #fff;
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+.price-card .from {
+  font-size: 14px;
+  color: rgba(255,255,255,.55);
+  margin-bottom: 6px;
+}
+.price-card .big-price {
+  font-family: var(--font-head);
+  font-size: clamp(36px, 5vw, 48px);
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 6px;
+  background: linear-gradient(135deg, #FFCE55, #FF8A50);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.price-card .big-price small {
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(255,255,255,.55);
+  -webkit-text-fill-color: rgba(255,255,255,.55);
+}
+.price-card .sub {
+  font-size: 14px;
+  color: rgba(255,255,255,.6);
+  margin-bottom: 22px;
+}
+.price-list {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+.price-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: rgba(255,255,255,.82);
+}
+.price-list li::before {
+  content: "✓";
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: rgba(255,95,31,.2);
+  color: #FFB088;
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.price-card .btn { width: 100%; }
+.price-note {
+  text-align: center;
+  margin-top: 12px;
+  font-size: 12.5px;
+  color: rgba(255,255,255,.45);
+}
+
+/* =====================================================
+   TESTIMONIALS
+===================================================== */
+.testimonials {
+  padding: 64px 0;
+  background: var(--bg-alt);
+}
+.testi-track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(280px, 340px);
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 8px 4px 20px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.testi-track::-webkit-scrollbar { display: none; }
+.testi-card {
+  scroll-snap-align: start;
+  background: #fff;
+  border-radius: 20px;
+  padding: 24px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 240px;
+}
+.testi-card .stars { color: var(--gold); letter-spacing: 2px; font-size: 14px; }
+.testi-card blockquote {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--text);
+  flex: 1;
+}
+.testi-card footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.testi-card .avatar {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-family: var(--font-head);
+  color: #fff;
+  background: var(--gradient-brand);
+  font-size: 14px;
+}
+.testi-card .who strong { display: block; font-size: 14px; }
+.testi-card .who span { font-size: 12.5px; color: var(--text-muted); }
+.testi-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+.testi-controls button {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  transition: border-color .2s, color .2s, background .2s;
+}
+.testi-controls button:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--primary-soft);
+}
+
+/* =====================================================
+   TRIAL FORM
+===================================================== */
+.trial {
+  padding: 64px 0;
+  background: var(--bg);
+  position: relative;
+}
+.trial-wrap {
+  display: grid;
+  gap: 32px;
+  align-items: stretch;
+}
+@media (min-width: 920px) {
+  .trial-wrap { grid-template-columns: 1fr 1.05fr; gap: 40px; }
+}
+.trial-copy {
+  padding: 8px 0;
+}
+.trial-copy h2 {
+  font-size: clamp(26px, 3.4vw, 38px);
+  margin: 12px 0 14px;
+}
+.trial-copy p {
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+.trial-benefits {
+  display: grid;
+  gap: 14px;
+}
+.trial-benefit {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: var(--bg-warm);
+  border: 1px solid rgba(255,95,31,.1);
+}
+.trial-benefit .ico {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  background: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+  box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
+}
+.trial-benefit strong { display: block; font-size: 14.5px; margin-bottom: 2px; }
+.trial-benefit span { font-size: 13px; color: var(--text-muted); }
+
+.trial-form-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 24px 22px;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow: hidden;
+}
+.trial-form-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: var(--gradient-brand);
+}
+.trial-form-card h3 {
+  font-size: 22px;
+  margin-bottom: 6px;
+}
+.trial-form-card .form-lead {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-bottom: 22px;
+}
+.field { margin-bottom: 10px; position: relative; }
+.field label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+.field input,
+.field select {
+  width: 100%;
+  padding: 13px 14px;
+  border-radius: 12px;
+  border: 1.5px solid #E5E7EB;
+  background: #fff;
+  transition: border-color .2s, box-shadow .2s;
+  color: var(--text);
+  appearance: none;
+}
+.field select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%236B7280' d='M1.4.6 6 5.2 10.6.6 12 2 6 8 0 2z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 40px;
+}
+.field input:focus,
+.field select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(255,95,31,.12);
+}
+.field input.is-error,
+.field select.is-error {
+  border-color: #DC2626;
+  box-shadow: 0 0 0 4px rgba(220,38,38,.1);
+}
+.field input.is-ok,
+.field select.is-ok {
+  border-color: var(--success);
+}
+.field-msg {
+  font-size: 12px;
+  margin-top: 5px;
+  min-height: 16px;
+  color: #DC2626;
+}
+.field-msg.ok { color: var(--success); }
+.trial-form-card .btn { width: 100%; margin-top: 4px; }
+.form-note {
+  text-align: center;
+  margin-top: 14px;
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+.form-result {
+  display: none;
+  text-align: center;
+  padding: 24px 8px 8px;
+}
+.form-result.is-show { display: block; }
+.form-result .check {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: #DCFCE7;
+  color: var(--success);
+  display: grid;
+  place-items: center;
+  font-size: 28px;
+  margin: 0 auto 16px;
+}
+.form-result h4 {
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+.form-result p {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+.link-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  background: var(--bg-alt);
+  border-radius: 12px;
+  padding: 10px 12px;
+  margin-bottom: 16px;
+}
+.link-row code {
+  flex: 1;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text);
+}
+.link-row button {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--primary);
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: var(--primary-soft);
+}
+.form-result .btn { width: 100%; }
+
+/* =====================================================
+   FAQ
+===================================================== */
+.faq {
+  padding: 64px 0;
+  background: var(--bg-warm);
+}
+.faq-list {
+  max-width: 760px;
+  margin: 0 auto;
+  display: grid;
+  gap: 10px;
+}
+.faq-item {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: border-color .25s, box-shadow .25s;
+}
+.faq-item.open {
+  border-color: rgba(255,95,31,.3);
+  box-shadow: var(--shadow-md);
+}
+.faq-q {
+  width: 100%;
+  text-align: left;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--text);
+}
+.faq-q .chev {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--bg-alt);
+  display: grid;
+  place-items: center;
+  color: var(--primary);
+  flex-shrink: 0;
+  transition: transform .3s var(--ease), background .2s;
+  font-size: 12px;
+}
+.faq-item.open .chev {
+  transform: rotate(180deg);
+  background: var(--primary-soft);
+}
+.faq-a {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .4s var(--ease);
+}
+.faq-a p {
+  padding: 0 20px 18px;
+  color: var(--text-muted);
+  font-size: 14.5px;
+  line-height: 1.65;
+}
+
+/* =====================================================
+   FINAL CTA
+===================================================== */
+.cta-final {
+  padding: 88px 0;
+  background: var(--gradient-dark);
+  color: #fff;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.cta-final::before {
+  content: "";
+  position: absolute;
+  width: 500px; height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(247,162,55,.3), transparent 70%);
+  top: -200px; left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.cta-final .container { position: relative; z-index: 1; }
+.cta-final h2 {
+  color: #fff;
+  font-size: clamp(24px, 3.4vw, 34px);
+  margin-bottom: 10px;
+  max-width: 16ch;
+  margin-inline: auto;
+}
+.cta-final p {
+  color: rgba(255,255,255,.68);
+  max-width: 480px;
+  margin: 0 auto 22px;
+  font-size: 15px;
+}
+.cta-final .btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* =====================================================
+   FOOTER
+===================================================== */
+.site-footer {
+  background: #080808;
+  color: rgba(255,255,255,.62);
+  padding: 64px 0 28px;
+}
+.footer-grid {
+  display: grid;
+  gap: 36px;
+  margin-bottom: 40px;
+}
+@media (min-width: 800px) {
+  .footer-grid { grid-template-columns: 1.5fr 1fr 1fr 1.3fr; }
+}
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.footer-brand .footer-logo {
+  width: 40px; height: 40px;
+  border-radius: 8px;
+}
+.footer-brand strong {
+  font-family: var(--font-head);
+  font-weight: 800;
+  color: var(--primary);
+  font-size: 19px;
+}
+.footer-about {
+  font-size: 13.5px;
+  line-height: 1.65;
+  max-width: 300px;
+  margin-bottom: 16px;
+}
+.footer-col h4 {
+  color: #fff;
+  font-size: 13.5px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  letter-spacing: .02em;
+}
+.footer-col ul li { margin-bottom: 9px; font-size: 13.5px; }
+.footer-col ul li a:hover { color: var(--primary); }
+.footer-addr {
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+.footer-addr b {
+  color: #fff;
+  display: block;
+  font-size: 12.5px;
+  margin-bottom: 3px;
+}
+.footer-addr a { color: var(--primary); }
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,.08);
+  padding-top: 22px;
+  font-size: 12.5px;
+  text-align: center;
+  color: rgba(255,255,255,.4);
+}
+
+/* =====================================================
+   FLOATING UI
+===================================================== */
+.wa-float {
+  position: fixed;
+  right: 20px;
+  bottom: 24px;
+  z-index: 90;
+  width: 58px; height: 58px;
+  border-radius: 50%;
+  background: #25D366;
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 28px;
+  box-shadow: 0 10px 28px rgba(37,211,102,.4);
+  transform: translateY(120px);
+  opacity: 0;
+  transition: transform .4s var(--ease), opacity .3s, scale .2s;
+}
+.wa-float.show { transform: none; opacity: 1; }
+.wa-float:hover { transform: scale(1.06); }
+.wa-tooltip {
+  position: fixed;
+  right: 90px;
+  bottom: 38px;
+  z-index: 90;
+  background: #fff;
+  color: var(--text);
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(8px);
+  transition: opacity .3s, transform .3s var(--ease);
+  white-space: nowrap;
+}
+.wa-tooltip.show {
+  opacity: 1;
+  transform: none;
+}
+.wa-tooltip::after {
+  content: "";
+  position: absolute;
+  right: -6px; top: 50%;
+  transform: translateY(-50%);
+  border: 6px solid transparent;
+  border-left-color: #fff;
+}
+
+.mobile-cta-bar {
+  position: fixed;
+  left: 12px; right: 12px; bottom: 12px;
+  z-index: 85;
+  display: none;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 10px;
+  background: rgba(255,255,255,.94);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: var(--shadow-lg);
+  transform: translateY(120%);
+  transition: transform .4s var(--ease);
+}
+.mobile-cta-bar.show { transform: none; }
+.mobile-cta-bar .btn { width: 100%; padding: 12px 10px; font-size: 13px; }
+@media (max-width: 759px) {
+  .mobile-cta-bar { display: grid; }
+  .wa-float { bottom: 88px; }
+  .wa-tooltip { bottom: 102px; }
+}
+
+/* Body lock when modal/menu open */
+body.is-locked { overflow: hidden; }
+</style>
+</head>
+<body>
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+<header class="site-header" id="siteHeader">
+  <div class="container">
+    <a href="#hero" class="brand" aria-label="KASIRSOLO Beranda">
+      <img src="logo.png" alt="KASIRSOLO" class="brand-logo">
+      <div class="brand-text">
+        <strong>KASIRSOLO</strong>
+        <span>PT Mesin Kasir Solo</span>
+      </div>
+    </a>
+
+    <nav class="nav-links" aria-label="Navigasi utama">
+      <a href="#apps" data-nav>Aplikasi</a>
+      <a href="#how" data-nav>Cara Kerja</a>
+      <a href="#features" data-nav>Fitur</a>
+      <a href="#pricing" data-nav>Harga</a>
+      <a href="#faq" data-nav>FAQ</a>
+    </nav>
+
+    <div class="nav-actions">
+      <a href="https://wa.me/628816566935?text=Halo%20KASIRSOLO%2C%20saya%20mau%20konsultasi" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">💬 WhatsApp</a>
+      <a href="#trial" class="btn btn-primary btn-sm">Coba Gratis</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Buka menu" aria-expanded="false" aria-controls="mobileNav">
+        <span></span>
+      </button>
+    </div>
+  </div>
+  <div class="header-progress" id="headerProgress"></div>
+</header>
+
+<nav class="mobile-nav" id="mobileNav" aria-label="Menu mobile">
+  <a href="#apps" data-mobile-nav>Aplikasi</a>
+  <a href="#how" data-mobile-nav>Cara Kerja</a>
+  <a href="#features" data-mobile-nav>Fitur</a>
+  <a href="#pricing" data-mobile-nav>Harga</a>
+  <a href="#faq" data-mobile-nav>FAQ</a>
+  <a href="#trial" class="btn btn-primary" data-mobile-nav>🎯 Coba Gratis 7 Hari</a>
+</nav>
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+<section class="hero" id="hero">
+  <div class="hero-mesh" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="hero-grid"></div>
+  </div>
+
+  <div class="container">
+    <div class="hero-copy reveal">
+      <div class="hero-badge">
+        <span class="dot" aria-hidden="true"></span>
+        Promo Soft Launch — Harga Perdana Bisa Naik Kapan Saja
+      </div>
+      <h1><em>Sekali beli</em><br>untuk selamanya</h1>
+      <p class="lead">
+        Warung, bengkel, masjid, klinik, atau apotekmu masih dihitung manual?
+        <a href="https://kasirsolo.my.id" target="_blank" rel="noopener">PT Mesin Kasir Solo</a> menghadirkan aplikasi kasir offline siap pakai — <strong>coba gratis 7 hari, kalau cocok baru bayar sekali.</strong>
+        Tapi ingat: trial cuma 7 hari. Kesempatan ini nggak nungguin kamu.
+      </p>
+      <div class="hero-cta">
+        <a href="#trial" class="btn btn-primary btn-lg"><span class="ico">🔥</span> Ambil Trial Gratis Sekarang</a>
+        <a href="#apps" class="btn btn-ghost btn-lg">Lihat Semua Aplikasi</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-card">
+          <strong data-count="8">0</strong>
+          <span>Aplikasi siap pakai</span>
+        </div>
+        <div class="stat-card">
+          <strong data-count="100" data-suffix="%">0</strong>
+          <span>Offline tanpa internet</span>
+        </div>
+        <div class="stat-card">
+          <strong data-count="7">0</strong>
+          <span>Hari trial gratis</span>
+        </div>
+        <div class="stat-card">
+          <strong>1×</strong>
+          <span>Bayar seumur hidup</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-visual reveal reveal-delay-2">
+      <div class="float-chip top-left" aria-hidden="true">
+        <span class="emoji">📴</span> Jalan tanpa internet
+      </div>
+      <div class="float-chip bottom-right" aria-hidden="true">
+        <span class="emoji">⭐</span> Sekali bayar
+      </div>
+
+      <div class="phone" id="phoneMock" aria-hidden="true">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="phone-appbar">
+            <small>KASIRSOLO · Retail</small>
+            <strong>Halo, Toko Maju 👋</strong>
+          </div>
+          <div class="phone-body">
+            <div class="phone-row">
+              <div class="phone-tile">
+                <div class="label">Hari ini</div>
+                <div class="value">Rp 1,2jt</div>
+              </div>
+              <div class="phone-tile">
+                <div class="label">Transaksi</div>
+                <div class="value">47</div>
+              </div>
+              <div class="phone-tile wide">
+                <div class="label">Stok kritis</div>
+                <div class="value" style="color:var(--primary)">3 item</div>
+              </div>
+            </div>
+            <div class="phone-list">
+              <div class="phone-item">
+                <div class="dot-ico">🛒</div>
+                <div class="meta"><b>Indomie Goreng</b><span>12:41 · Cash</span></div>
+                <div class="amt">+28rb</div>
+              </div>
+              <div class="phone-item">
+                <div class="dot-ico">🧾</div>
+                <div class="meta"><b>Aqua 600ml ×6</b><span>12:18 · QRIS</span></div>
+                <div class="amt">+18rb</div>
+              </div>
+              <div class="phone-item">
+                <div class="dot-ico">📦</div>
+                <div class="meta"><b>Restock Kopi</b><span>Stok +24 pcs</span></div>
+                <div class="amt" style="color:var(--success)">OK</div>
+              </div>
+            </div>
+            <div class="phone-nav">
+              <span class="active"><i>🏠</i>Home</span>
+              <span><i>💳</i>Kasir</span>
+              <span><i>📦</i>Stok</span>
+              <span><i>📊</i>Lapor</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     TRUST
+===================================================== -->
+<section class="trust" aria-label="Keunggulan singkat">
+  <div class="container">
+    <div class="trust-row">
+      <div class="trust-item">🏢 <b>PT Mesin Kasir Solo</b> · resmi sejak 2015</div>
+      <div class="trust-item">📴 <b>100% Offline</b> · tanpa server</div>
+      <div class="trust-item">💳 <b>Sekali bayar</b> · seumur hidup</div>
+      <div class="trust-item">📱 <b>Mobile-first</b> · PWA siap install</div>
+      <div class="trust-item">🛡️ <b>Lisensi terikat device</b></div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     PROBLEM / SOLUTION
+===================================================== -->
+<section class="problem" id="solusi">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Kenapa KASIRSOLO?</span>
+      <h2>Pesaingmu sudah mulai digital. Kamu masih pakai kalkulator & buku tulis?</h2>
+      <p>Tiap hari yang kamu tunda, berarti catatan yang berantakan, stok yang hilang tak kerasan, dan duit yang nggak kehitung bener. Khawatir mahal? Coba dulu — gratis. Rugi kalau nggak coba.</p>
+    </div>
+
+    <div class="problem-grid">
+      <article class="panel panel-bad reveal">
+        <span class="tag">❌ Masalah umum</span>
+        <h3>Aplikasi bagus, tapi ribet & mahal</h3>
+        <p>Banyak solusi digital memaksa bisnis kecil masuk model SaaS yang tidak cocok di lapangan.</p>
+        <ul class="checklist">
+          <li><span class="mark">✕</span><span>Harus bayar bulanan, meski omzet lagi sepi</span></li>
+          <li><span class="mark">✕</span><span>Mati total kalau internet putus</span></li>
+          <li><span class="mark">✕</span><span>Setup ribet, butuh orang IT</span></li>
+          <li><span class="mark">✕</span><span>Data tergantung server orang lain</span></li>
+        </ul>
+      </article>
+
+      <article class="panel panel-good reveal reveal-delay-2">
+        <span class="tag">✓ Solusi KASIRSOLO</span>
+        <h3>Bayar sekali. Pakai selamanya. Offline first.</h3>
+        <p>Aplikasi single-file HTML yang langsung jalan di browser HP atau laptop — tanpa drama.</p>
+        <ul class="checklist">
+          <li><span class="mark">✓</span><span>Sekali bayar, lisensi seumur hidup</span></li>
+          <li><span class="mark">✓</span><span>100% offline via localStorage</span></li>
+          <li><span class="mark">✓</span><span>Mobile-first, siap di-install sebagai PWA</span></li>
+          <li><span class="mark">✓</span><span>Trial 7 hari + perpanjangan 1×</span></li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     APPS
+===================================================== -->
+<section class="apps" id="apps">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Ekosistem Aplikasi</span>
+      <h2>Beragam aplikasi. <span>Satu ekosistem.</span></h2>
+      <p>Pilih yang cocok untuk bisnismu. Semua pakai design system yang sama, offline, dan mudah dipakai karyawan di HP.</p>
+    </div>
+
+    <div class="filter-tabs reveal" id="filterTabs" role="tablist" aria-label="Filter kategori aplikasi">
+      <button class="filter-tab active" data-filter="all" role="tab" aria-selected="true">Semua</button>
+      <button class="filter-tab" data-filter="bisnis" role="tab" aria-selected="false">Bisnis</button>
+      <button class="filter-tab" data-filter="institusi" role="tab" aria-selected="false">Institusi</button>
+      <button class="filter-tab" data-filter="kesehatan" role="tab" aria-selected="false">Kesehatan</button>
+    </div>
+
+    <div class="apps-grid" id="appsGrid" aria-live="polite"></div>
+  </div>
+</section>
+
+<!-- Modal detail app -->
+<div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+  <div class="modal">
+    <button class="modal-close" id="modalClose" aria-label="Tutup">✕</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<!-- =====================================================
+     HOW IT WORKS
+===================================================== -->
+<section class="how" id="how">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Alur Singkat</span>
+      <h2>Dari coba gratis sampai full version</h2>
+      <p>Prosesnya jelas, tanpa jebakan subscription. Bayar transfer, aktivasi via WhatsApp.</p>
+    </div>
+
+    <div class="steps">
+      <article class="step reveal">
+        <div class="step-ico">📝</div>
+        <h3>Daftar trial</h3>
+        <p>Isi nama, WA, dan pilih aplikasi. Langsung dapat akses demo 7 hari.</p>
+      </article>
+      <article class="step reveal reveal-delay-1">
+        <div class="step-ico">🧪</div>
+        <h3>Pakai 7 hari</h3>
+        <p>Coba fitur di HP. Data tersimpan di perangkat. Bisa extend 1× kalau butuh waktu.</p>
+      </article>
+      <article class="step reveal reveal-delay-2">
+        <div class="step-ico">💳</div>
+        <h3>Bayar sekali</h3>
+        <p>Transfer ke rekening PT Mesin Kasir Solo, kirim bukti via WhatsApp admin.</p>
+      </article>
+      <article class="step reveal reveal-delay-3">
+        <div class="step-ico">🔑</div>
+        <h3>Aktivasi seumur hidup</h3>
+        <p>Dapat activation key + akses full version. Lisensi terikat device-mu.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     FEATURES
+===================================================== -->
+<section class="features" id="features">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Yang Bikin Beda</span>
+      <h2>Dirancang untuk lapangan Indonesia</h2>
+      <p>Bukan demo yang cuma keren di laptop. Ini untuk warung, bengkel, masjid, dan klinik yang butuh sistem jalan tiap hari.</p>
+    </div>
+
+    <div class="feat-grid">
+      <article class="feat-card reveal">
+        <div class="ico">📴</div>
+        <h3>100% Offline First</h3>
+        <p>Data di localStorage. Internet putus? Aplikasi tetap jalan. Cocok untuk daerah dengan sinyal kurang stabil.</p>
+      </article>
+      <article class="feat-card reveal reveal-delay-1">
+        <div class="ico">💰</div>
+        <h3>Sekali Bayar, Seumur Hidup</h3>
+        <p>Tanpa tagihan bulanan. Bayar sekali, pakai selamanya. Model yang ramah untuk UMKM dan institusi.</p>
+      </article>
+      <article class="feat-card reveal reveal-delay-2">
+        <div class="ico">📱</div>
+        <h3>Mobile-First + PWA</h3>
+        <p>Dipakai di HP karyawan. Aplikasi bisa di-install ke home screen seperti app native — tanpa Play Store.</p>
+      </article>
+      <article class="feat-card reveal">
+        <div class="ico">🧩</div>
+        <h3>Teknologi Modern</h3>
+        <p>Ringan, cepat, mudah didistribusikan. Tidak butuh install server atau database.</p>
+      </article>
+      <article class="feat-card reveal reveal-delay-2">
+        <div class="ico">🛡️</div>
+        <h3>Garansi Resmi</h3>
+        <p>Dikembangkan oleh PT Mesin Kasir Solo. Support via WhatsApp. Legal & operasional jelas di Jawa Tengah.</p>
+      </article>
+      <article class="feat-card reveal reveal-delay-2">
+        <div class="ico">📦</div>
+        <h3>Export / Import Data</h3>
+        <p>Data kamu bisa di-download kapanpun. Gak terkunci di sistem — kalau pindah perangkat, data tinggal restore.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     PRICING / VALUE
+===================================================== -->
+<section class="value" id="pricing">
+  <div class="container">
+    <div class="value-wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">Harga Transparan</span>
+        <h2>Modal seharga seblak, untungnya seumur hidup.</h2>
+        <p>
+          Transparansi harga yang pasti, lebih hemat dari satu bulan langganan aplikasi lain, tapi <strong>punya selamanya, bukan sewa.</strong>
+          Harga perdana promo bisa naik kapan saja. Makin cepat ambil, makin murah dapatnya.
+        </p>
+        <div class="value-points">
+          <div class="value-point">
+            <span class="num">1</span>
+            <div>
+              <strong>Harga Sangat Terjangkau</strong>
+              <span>Masjid & TPA paling terjangkau; Klinik & Apotek untuk fitur lebih dalam.</span>
+            </div>
+          </div>
+          <div class="value-point">
+            <span class="num">2</span>
+            <div>
+              <strong>Termasuk update minor</strong>
+              <span>Perbaikan bug & penyempurnaan kecil untuk lisensi aktif.</span>
+            </div>
+          </div>
+          <div class="value-point">
+            <span class="num">3</span>
+            <div>
+              <strong>Support WhatsApp</strong>
+              <span>Langsung chat ke admin. Tidak perlu ticket system yang bikin pusing.</span>
+            </div>
+          </div>
+        </div>
+        <a href="#apps" class="btn btn-outline">Lihat harga per aplikasi</a>
+      </div>
+
+      <div class="price-card reveal reveal-delay-2">
+        <div class="ribbon">🔥 Promo Perdana — Harga Bisa Naik Kapan Saja</div>
+        <h3>Cukup Sekali Bayar</h3>
+        <div class="from">Mulai dari</div>
+        <div class="big-price">Rp 200rb<small> / aplikasi</small></div>
+        <p class="sub">Bukan subscription. Lisensi seumur hidup per perangkat.</p>
+        <ul class="price-list">
+          <li>✅ Trial 7 hari gratis — tanpa kartu</li>
+          <li>✅ Extended trial 1× (7 hari lagi)</li>
+          <li>✅ Activation key resmi</li>
+          <li>✅ Offline + PWA install</li>
+          <li>✅ Support via WhatsApp</li>
+          <li>✅ Garansi PT Mesin Kasir Solo</li>
+        </ul>
+        <a href="#trial" class="btn btn-primary btn-lg">🔥 Klaim Trial Sebelum Habis</a>
+        <p class="price-note">Contoh: Retail Rp 250rb · Bengkel Rp 400rb · Klinik Rp 500rb</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     TESTIMONIALS
+===================================================== -->
+<section class="testimonials" id="testimoni">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Kata Mereka</span>
+      <h2>Dipakai di lapangan, bukan cuma di presentasi</h2>
+      <p>Dari toko kelontong sampai institusi — yang dicari: simpel, offline, dan harga masuk akal.</p>
+    </div>
+
+    <div class="testi-track reveal" id="testiTrack" tabindex="0" aria-label="Carousel testimoni">
+      <article class="testi-card">
+        <div class="stars" aria-label="5 bintang">★★★★★</div>
+        <blockquote>“Internet di toko sering putus. Dengan KASIRSOLO, kasir tetap jalan. Bayar sekali, selesai.”</blockquote>
+        <footer>
+          <div class="avatar">BS</div>
+          <div class="who"><strong>Budi Santoso</strong><span>Pemilik Toko · Solo</span></div>
+        </footer>
+      </article>
+      <article class="testi-card">
+        <div class="stars" aria-label="5 bintang">★★★★★</div>
+        <blockquote>“Laporan infak masjid jadi rapi. Panitia yang gaptek pun bisa pakai di HP.”</blockquote>
+        <footer>
+          <div class="avatar">AR</div>
+          <div class="who"><strong>Ahmad Rifa’i</strong><span>Takmir Masjid · Sukoharjo</span></div>
+        </footer>
+      </article>
+      <article class="testi-card">
+        <div class="stars" aria-label="5 bintang">★★★★★</div>
+        <blockquote>“Stok sparepart & antrean servis rapi. Estimasi biaya ke pelanggan jadi lebih percaya diri.”</blockquote>
+        <footer>
+          <div class="avatar">DW</div>
+          <div class="who"><strong>Doni Wibowo</strong><span>Bengkel Motor · Blora</span></div>
+        </footer>
+      </article>
+      <article class="testi-card">
+        <div class="stars" aria-label="5 bintang">★★★★★</div>
+        <blockquote>“Order jahit, ukuran, dan progres produksi satu tempat. Tim production gampang update status.”</blockquote>
+        <footer>
+          <div class="avatar">SL</div>
+          <div class="who"><strong>Sari Lestari</strong><span>Owner Konveksi · Kartasura</span></div>
+        </footer>
+      </article>
+      <article class="testi-card">
+        <div class="stars" aria-label="5 bintang">★★★★★</div>
+        <blockquote>“Rekam medis pasien THT lebih teratur. Tidak ribet, langsung pakai di tablet klinik.”</blockquote>
+        <footer>
+          <div class="avatar">DR</div>
+          <div class="who"><strong>dr. Rina</strong><span>Klinik THT · Jawa Tengah</span></div>
+        </footer>
+      </article>
+    </div>
+
+    <div class="testi-controls">
+      <button type="button" id="testiPrev" aria-label="Testimoni sebelumnya">‹</button>
+      <button type="button" id="testiNext" aria-label="Testimoni berikutnya">›</button>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     TRIAL
+===================================================== -->
+<section class="trial" id="trial">
+  <div class="container">
+    <div class="trial-wrap">
+      <div class="trial-copy reveal">
+        <span class="eyebrow">Jangan Tunggu Besok</span>
+        <h2>7 hari gratis. Habis? Baru sadar rugi.</h2>
+        <p>
+          Coba sekarang juga — <strong>gratis, tanpa kartu kredit, tanpa jebakan.</strong>
+          Kalau cocok, bayar sekali buat selamanya. Kalau nggak, ya sudah, tidak rugi sepeser pun.
+          Tapi ingat: extended trial cuma <strong>1× seumur hidup</strong>. Kesempatan kedua nggak ada.
+        </p>
+        <div class="trial-benefits">
+          <div class="trial-benefit">
+            <div class="ico">⏱️</div>
+            <div>
+              <strong>7 hari full access</strong>
+              <span>Semua fitur inti bisa dicoba di perangkatmu.</span>
+            </div>
+          </div>
+          <div class="trial-benefit">
+            <div class="ico">🔁</div>
+            <div>
+              <strong>Extended trial 1×</strong>
+              <span>Habis 7 hari? Masih bisa perpanjang 7 hari lagi — sekali seumur hidup.</span>
+            </div>
+          </div>
+          <div class="trial-benefit">
+            <div class="ico">💬</div>
+            <div>
+              <strong>Bantuan via WhatsApp</strong>
+              <span>Admin bantu aktivasi & onboarding. WA: 0881656566935</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="trial-form-card reveal reveal-delay-2">
+        <div id="formPanel">
+          <h3>Daftar Trial Gratis — 7 Hari</h3>
+          <p class="form-lead">Isi di bawah, admin langsung chat WhatsApp kasih akses demo. <strong>Slot trial terbatas per hari — ambil sekarang sebelum lewat.</strong></p>
+          <form id="trialForm" novalidate>
+            <div class="field">
+              <label for="fNama">Nama Lengkap</label>
+              <input type="text" id="fNama" name="nama" autocomplete="name" placeholder="Contoh: Budi Santoso" required>
+              <div class="field-msg" id="msgNama"></div>
+            </div>
+            <div class="field">
+              <label for="fEmail">Alamat</label>
+              <input type="text" id="fEmail" name="alamat" autocomplete="street-address" placeholder="Contoh: Jl. Slamet Riyadi No. 42, Solo" required>
+
+              <div class="field-msg" id="msgEmail"></div>
+            </div>
+            <div class="field">
+              <label for="fWa">No. WhatsApp</label>
+              <input type="tel" id="fWa" name="wa" autocomplete="tel" placeholder="08xxxxxxxxxx" required>
+              <div class="field-msg" id="msgWa"></div>
+            </div>
+            <div class="field">
+              <label for="fApp">Pilih Aplikasi</label>
+              <select id="fApp" name="app" required>
+                <option value="" selected disabled>Pilih salah satu…</option>
+                <option value="retail">Kasir Retail — Rp 250.000</option>
+                <option value="konveksi">Manajemen Konveksi — Rp 350.000</option>
+                <option value="bengkel">Bengkel + Sparepart — Rp 400.000</option>
+                <option value="masjid">Manajemen Masjid — Rp 200.000</option>
+                <option value="tpa">Manajemen TPA/TPQ — Rp 200.000</option>
+                <option value="klinik">Klinik THT — Rp 500.000</option>
+                <option value="apotek">Apotek — Rp 450.000</option>
+                <option value="dapur">Dapur SPPG — Rp 300.000</option>
+              </select>
+              <div class="field-msg" id="msgApp"></div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg" id="trialSubmit">🎯 Mulai Trial Sekarang</button>
+            <p class="form-note">Dengan mendaftar, kamu setuju dihubungi via WhatsApp untuk onboarding trial.</p>
+          </form>
+        </div>
+
+        <div class="form-result" id="formResult" aria-live="polite">
+          <div class="check">✓</div>
+          <h4>Registrasi berhasil!</h4>
+          <p>Data trial kamu sudah kami terima. Lanjut chat admin untuk akses demo, atau salin ringkasan di bawah.</p>
+          <div class="link-row">
+            <code id="trialSummary">—</code>
+            <button type="button" id="copySummary">Salin</button>
+          </div>
+          <a class="btn btn-primary" id="waAfterTrial" href="#" target="_blank" rel="noopener">💬 Lanjut via WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     FAQ
+===================================================== -->
+<section class="faq" id="faq">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">FAQ</span>
+      <h2>Pertanyaan yang sering muncul</h2>
+      <p>Masih ragu? Langsung tanya juga boleh — WhatsApp kami selalu siap.</p>
+    </div>
+    <div class="faq-list reveal" id="faqList"></div>
+  </div>
+</section>
+
+<!-- =====================================================
+     FINAL CTA
+===================================================== -->
+<section class="cta-final">
+  <div class="container">
+    <div class="cta-final-inner">
+      <h2>Masih pikir-pikir? Pesaingmu udah jalan.</h2>
+      <p>Konsultasi gratis. Demo aplikasi. Trial 7 hari. Bayar sekali kalau cocok — seumur hidup. <strong>Modal receh, keuntungan bertahun-tahun. Sayang kalau dilewatkan.</strong></p>
+      <div class="btn-row">
+        <a href="#trial" class="btn btn-primary btn-lg">🔥 Ambil Kesempatan — Trial Gratis</a>
+        <a href="https://wa.me/628816566935?text=Halo%20KASIRSOLO%2C%20saya%20mau%20konsultasi%20dan%20demo%20aplikasi" target="_blank" rel="noopener" class="btn btn-ghost btn-lg">💬 Chat WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <img src="logo.png" alt="KASIRSOLO" class="footer-logo">
+          <strong>KASIRSOLO</strong>
+        </div>
+        <p class="footer-about">
+          by PT Mesin Kasir Solo — solusi digital offline untuk bisnis & institusi Indonesia.
+          Owner: Amin Maghfuri.
+        </p>
+        <p class="footer-about" style="margin:0">
+          📱 <a href="https://wa.me/628816566935" style="color:var(--primary)">0881656566935</a><br>
+          ✉️ <a href="mailto:owner.kasirsolo@gmail.com" style="color:var(--primary)">owner.kasirsolo@gmail.com</a>
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Produk</h4>
+        <ul>
+          <li><a href="#apps">Kasir Retail</a></li>
+          <li><a href="#apps">Bengkel + Sparepart</a></li>
+          <li><a href="#apps">Manajemen Masjid</a></li>
+          <li><a href="#apps">Klinik & Apotek</a></li>
+          <li><a href="#apps">Semua Aplikasi</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Perusahaan</h4>
+        <ul>
+          <li><a href="#solusi">Kenapa Kami</a></li>
+          <li><a href="#how">Cara Kerja</a></li>
+          <li><a href="#pricing">Harga</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="https://wa.me/628816566935" target="_blank" rel="noopener">Hubungi Kami</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Kontak & Alamat</h4>
+        <div class="footer-addr">
+          <b>Alamat Legal</b>
+          Perum Graha Tiara 2 B1, Gumpang 07/01, Kartasura, Sukoharjo, Jawa Tengah 57169
+          — <a href="https://maps.app.goo.gl/AqHgxMShfGUCS86a6" target="_blank" rel="noopener">Lihat peta</a>
+        </div>
+        <div class="footer-addr">
+          <b>Alamat Operasional</b>
+          Gumiring 04/04, Sidomulyo, Banjarejo, Blora, Jawa Tengah 58253
+          — <a href="https://maps.app.goo.gl/ziGXATdmgGVMkrjd7" target="_blank" rel="noopener">Lihat peta</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      © 2026 <a href="https://kasirsolo.my.id" target="_blank">PT Mesin Kasir Solo</a> — KASIRSOLO. Sekali Bayar, Seumur Hidup. Seluruh hak cipta dilindungi.
+    </div>
+  </div>
+</footer>
+
+<!-- Floating -->
+<div class="wa-tooltip" id="waTooltip">Chat kami di sini! 👋</div>
+<a href="https://wa.me/628816566935?text=Halo%20KASIRSOLO%2C%20saya%20mau%20tanya" class="wa-float" id="waFloat" target="_blank" rel="noopener" aria-label="Chat WhatsApp">💬</a>
+
+<div class="mobile-cta-bar" id="mobileCta">
+  <a href="#apps" class="btn btn-outline">📱 Aplikasi</a>
+  <a href="https://wa.me/628816566935?text=Halo%20KASIRSOLO%2C%20saya%20mau%20konsultasi" target="_blank" rel="noopener" class="btn btn-primary">💬 Konsultasi</a>
+</div>
+
+<script>
+/* =====================================================
+   CONFIG — Google Sheets Backend
+===================================================== */
+const GS_URL = 'https://script.google.com/macros/s/AKfycbw0tEqXd_G_dwRUYeSlAkd-NpoAqTnOP6RNmy79JJKcxdxTv5cUIO8jW715eCeTjIEX/exec';
+
+/* =====================================================
+   DATA — dari docs/README.md
+===================================================== */
+const APPS = [
+  {
+    id: 'retail', cat: 'bisnis', ico: '🛒', name: 'Kasir Retail',
+    target: 'Toko, Warung, Retail',
+    price: 250000, hot: true,
+    desc: 'Transaksi cepat, stok otomatis, laporan harian, dan cetak struk.',
+    features: ['Transaksi & multi-metode bayar', 'Manajemen stok barang', 'Laporan harian & rekap', 'Cetak / bagikan struk']
+  },
+  {
+    id: 'konveksi', cat: 'bisnis', ico: '👕', name: 'Manajemen Konveksi',
+    target: 'Jahit, Sablon, Garmen',
+    price: 350000, hot: false,
+    desc: 'Orderan, ukuran, tracking produksi, dan inventory kain dalam satu tempat.',
+    features: ['Order & status produksi', 'Catat ukuran & bahan', 'Inventory kain', 'Riwayat pelanggan']
+  },
+  {
+    id: 'bengkel', cat: 'bisnis', ico: '🔧', name: 'Bengkel + Sparepart',
+    target: 'Bengkel Motor/Mobil, Toko Sparepart',
+    price: 400000, hot: true,
+    desc: 'Service tracking, inventory sparepart, dan estimasi biaya yang rapi.',
+    features: ['Antrean & tracking servis', 'Stok sparepart', 'Estimasi biaya', 'Riwayat kendaraan']
+  },
+  {
+    id: 'masjid', cat: 'institusi', ico: '🕌', name: 'Manajemen Masjid',
+    target: 'Masjid, Musholla',
+    price: 200000, hot: false,
+    desc: 'Keuangan, infaq, agenda kegiatan, dan laporan transparan untuk jamaah.',
+    features: ['Kas & infaq', 'Agenda kegiatan', 'Laporan keuangan', 'Data jamaah ringkas']
+  },
+  {
+    id: 'tpa', cat: 'institusi', ico: '📖', name: 'Manajemen TPA/TPQ',
+    target: 'Taman Pendidikan Al-Quran',
+    price: 200000, hot: false,
+    desc: 'Data santri, hafalan, absensi, dan nilai — rapi untuk wali & pengajar.',
+    features: ['Data santri', 'Absensi harian', 'Progres hafalan', 'Nilai & laporan wali']
+  },
+  {
+    id: 'klinik', cat: 'kesehatan', ico: '🩺', name: 'Klinik THT',
+    target: 'Praktik Dokter THT',
+    price: 500000, hot: false,
+    desc: 'Rekam medis, riwayat pasien, tindakan, dan alur praktik yang lebih teratur.',
+    features: ['Rekam medis', 'Riwayat pasien', 'Catat tindakan', 'Antrean / kunjungan']
+  },
+  {
+    id: 'apotek', cat: 'kesehatan', ico: '💊', name: 'Apotek',
+    target: 'Apotek, Toko Obat',
+    price: 450000, hot: true,
+    desc: 'Stok obat, pantau kadaluwarsa, resep, dan penjualan harian.',
+    features: ['Stok obat', 'Alert kadaluwarsa', 'Resep & penjualan', 'Laporan harian']
+  },
+  {
+    id: 'dapur', cat: 'institusi', ico: '🍳', name: 'Dapur SPPG',
+    target: 'Satuan Pelayanan Pemenuhan Gizi',
+    price: 300000, hot: false,
+    desc: 'Menu mingguan, stok bahan, distribusi porsi, dan perencanaan dapur.',
+    features: ['Menu mingguan', 'Stok bahan', 'Distribusi porsi', 'Laporan konsumsi']
+  }
+];
+
+/* =====================================================
+   SYNC — Read admin app catalog from localStorage
+   (price/features edited in admin reflect on landing)
+===================================================== */
+(function mergeAdminApps() {
+  try {
+    const raw = localStorage.getItem('ks_admin_apps');
+    if (!raw) return;
+    const adminApps = JSON.parse(raw);
+    if (!Array.isArray(adminApps)) return;
+    adminApps.forEach(adminApp => {
+      if (!adminApp || !adminApp.code || adminApp.status === 'deprecated') return;
+      const landingApp = APPS.find(a => a.id === adminApp.code);
+      if (!landingApp) return;
+      // Only override if the admin app is active
+      if (adminApp.status === 'active') {
+        if (typeof adminApp.price === 'number') landingApp.price = adminApp.price;
+        if (adminApp.features && typeof adminApp.features === 'string') {
+          const features = adminApp.features.split(',').map(f => f.trim()).filter(Boolean);
+          if (features.length > 0) landingApp.features = features;
+        }
+      }
+    });
+  } catch (_) { /* silent fallback to hardcoded APPS */ }
+})();
+
+const FAQS = [
+  {
+    q: 'Apa bedanya KASIRSOLO dengan aplikasi kasir subscription?',
+    a: 'App langganan = kamu bayar terus tiap bulan, selama bisnis masih jalan. KASIRSOLO = bayar SEKALI, punya selamanya. Hitung sendiri: 1 tahun langganan bisa lebih mahal dari beli KASIRSOLO sekali. Apalagi kalau tokomu jalan 5–10 tahun. Plus, KASIRSOLO offline-first — tetap jalan walau internet putus.'
+  },
+  {
+    q: 'Apakah benar-benar bisa dipakai offline?',
+    a: 'Ya, 100%. Data di localStorage perangkat — bukan di server orang lain. Pas buat toko, bengkel, atau institusi yang sinyalnya suka ngambek. Sync opsional via Google Sheets menyusul di fase berikutnya. Coba gratis 7 hari, buktiin sendiri di HP kamu.'
+  },
+  {
+    q: 'Bagaimana sistem trial bekerja?',
+    a: 'Trial gratis 7 hari penuh. Habis? Masih bisa extend 1× (7 hari lagi) — tapi itu SEKALI seumur hidup, nggak bisa minta lagi. Setelah itu app terkunci sampai aktivasi pakai key resmi. Makanya: coba sekarang, sebelum kesempatan extend kepakai sia-sia.'
+  },
+  {
+    q: 'Bagaimana cara bayar dan aktivasi?',
+    a: 'Transfer ke rekening PT Mesin Kasir Solo, kirim bukti via WhatsApp 0881656566935. Admin langsung generate activation key dan kirim ke kamu — aktivasi seumur hidup di perangkatmu. Prosesnya cepat, nggak ribet, nggak perlu IT.'
+  },
+  {
+    q: 'Bisa dipakai di banyak perangkat?',
+    a: 'Lisensi terikat device (hardware fingerprint), ideal 1–2 perangkat — cukup untuk kasir utama & cadangan. Multi-device sync penuh menyusul di fase scale. Butuh lebih dari 2? Chat WA kami, bisa dibicarakan.'
+  },
+  {
+    q: 'Apakah butuh install server atau database?',
+    a: 'Sama sekali tidak. Tiap aplikasi cuma satu file HTML — buka di browser, atau install sebagai PWA ke home screen HP. Tidak perlu skill IT. 2 menit sudah jalan. Coba sekarang, lihat sendiri.'
+  },
+  {
+    q: 'Bagaimana kalau data browser terhapus?',
+    a: 'Data localStorage hilang kalau cache dibersihkan. Tapi tenang: fitur export/import JSON sudah disiapkan, dan backup otomatis ke Google Sheets ada di roadmap. Sekali export, data aman.'
+  },
+  {
+    q: 'Siapa di balik KASIRSOLO?',
+    a: 'PT Mesin Kasir Solo, owner Amin Maghfuri — berpengalaman di mesin kasir & digitalisasi bisnis offline sejak 2015. Bukan anak kuliahan yang besok hilang. Legal & operasional jelas di Jawa Tengah, support via WhatsApp.'
+  },
+  {
+    q: 'Kenapa harus coba sekarang, bukan nanti?',
+    a: 'Karena trial cuma 7 hari dan harga perdana promo bisa naik kapan saja. Tiap hari ditunda = catatan makin berantakan, stok makin hilang tak kelihatan, duit makin nggak kehitung. Coba gratis sekarang, kalau nggak cocok ya sudah — tidak rugi sepeser pun.'
+  }
+];
+
+const WA_NUMBER = '628816566935';
+const formatPrice = (n) => 'Rp ' + n.toLocaleString('id-ID');
+
+/* =====================================================
+   APPS GRID + FILTER + MODAL
+===================================================== */
+const appsGrid = document.getElementById('appsGrid');
+const filterTabs = document.getElementById('filterTabs');
+const modalOverlay = document.getElementById('modalOverlay');
+const modalContent = document.getElementById('modalContent');
+const modalClose = document.getElementById('modalClose');
+let lastFocus = null;
+
+function renderApps(filter = 'all') {
+  appsGrid.innerHTML = '';
+  const list = APPS.filter(a => filter === 'all' || a.cat === filter);
+  list.forEach((app, i) => {
+    const card = document.createElement('article');
+    card.className = 'app-card reveal is-visible';
+    card.style.transitionDelay = (i % 4) * 0.06 + 's';
+    card.innerHTML = `
+      ${app.hot ? '<span class="badge-hot">🔥 Populer</span>' : ''}
+      <div class="ico-wrap">${app.ico}</div>
+      <div class="code">${app.id}</div>
+      <h3>${app.name}</h3>
+      <p class="desc">${app.desc}</p>
+      <div class="meta">
+        <div class="price">${formatPrice(app.price)}<small>sekali bayar</small></div>
+        <button type="button" class="btn btn-outline btn-sm" data-app="${app.id}">Detail</button>
+      </div>`;
+    card.querySelector('button').addEventListener('click', () => openModal(app.id));
+    appsGrid.appendChild(card);
+  });
+}
+
+filterTabs.addEventListener('click', (e) => {
+  const btn = e.target.closest('.filter-tab');
+  if (!btn) return;
+  filterTabs.querySelectorAll('.filter-tab').forEach(t => {
+    t.classList.remove('active');
+    t.setAttribute('aria-selected', 'false');
+  });
+  btn.classList.add('active');
+  btn.setAttribute('aria-selected', 'true');
+  renderApps(btn.dataset.filter);
+});
+
+function openModal(id) {
+  const app = APPS.find(a => a.id === id);
+  if (!app) return;
+  lastFocus = document.activeElement;
+  modalContent.innerHTML = `
+    <div class="ico">${app.ico}</div>
+    <h3 id="modalTitle">${app.name}</h3>
+    <p class="target">Target: ${app.target} · Kode: <code>${app.id}</code></p>
+    <div class="price-lg">${formatPrice(app.price)}<small>sekali bayar · seumur hidup</small></div>
+    <ul>${app.features.map(f => `<li><span aria-hidden="true">✅</span><span>${f}</span></li>`).join('')}</ul>
+    <div class="modal-actions">
+      <a class="btn btn-primary" href="#trial" data-select-app="${app.id}">Coba Trial</a>
+      <a class="btn btn-outline" href="https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Halo KASIRSOLO, saya tertarik aplikasi ' + app.name + ' (' + app.id + ')')}" target="_blank" rel="noopener">Chat WA</a>
+    </div>`;
+  modalOverlay.hidden = false;
+  requestAnimationFrame(() => modalOverlay.classList.add('is-open'));
+  document.body.classList.add('is-locked');
+  modalClose.focus();
+
+  modalContent.querySelector('[data-select-app]')?.addEventListener('click', (e) => {
+    const code = e.currentTarget.getAttribute('data-select-app');
+    const select = document.getElementById('fApp');
+    if (select) select.value = code;
+    closeModal();
+  });
+}
+
+function closeModal() {
+  modalOverlay.classList.remove('is-open');
+  document.body.classList.remove('is-locked');
+  setTimeout(() => {
+    modalOverlay.hidden = true;
+    modalContent.innerHTML = '';
+    if (lastFocus) lastFocus.focus();
+  }, 280);
+}
+
+modalClose.addEventListener('click', closeModal);
+modalOverlay.addEventListener('click', (e) => {
+  if (e.target === modalOverlay) closeModal();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && modalOverlay.classList.contains('is-open')) closeModal();
+});
+
+renderApps('all');
+
+/* =====================================================
+   FAQ
+===================================================== */
+const faqList = document.getElementById('faqList');
+FAQS.forEach((item) => {
+  const el = document.createElement('div');
+  el.className = 'faq-item';
+  el.innerHTML = `
+    <button type="button" class="faq-q" aria-expanded="false">
+      <span>${item.q}</span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="faq-a"><p>${item.a}</p></div>`;
+  const btn = el.querySelector('.faq-q');
+  const ans = el.querySelector('.faq-a');
+  btn.addEventListener('click', () => {
+    const open = el.classList.contains('open');
+    faqList.querySelectorAll('.faq-item').forEach(other => {
+      other.classList.remove('open');
+      other.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+      other.querySelector('.faq-a').style.maxHeight = null;
+    });
+    if (!open) {
+      el.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+      ans.style.maxHeight = ans.scrollHeight + 'px';
+    }
+  });
+  faqList.appendChild(el);
+});
+
+/* =====================================================
+   TRIAL FORM
+===================================================== */
+const form = document.getElementById('trialForm');
+const formPanel = document.getElementById('formPanel');
+const formResult = document.getElementById('formResult');
+
+function setMsg(id, text, ok = false) {
+  const el = document.getElementById(id);
+  el.textContent = text || '';
+  el.classList.toggle('ok', !!ok && !!text);
+}
+
+function validateNama(el) {
+  const v = el.value.trim();
+  if (v.length < 3) {
+    el.classList.add('is-error'); el.classList.remove('is-ok');
+    setMsg('msgNama', 'Nama minimal 3 karakter');
+    return false;
+  }
+  el.classList.remove('is-error'); el.classList.add('is-ok');
+  setMsg('msgNama', '');
+  return true;
+}
+
+function validateEmail(el) {
+  const v = el.value.trim();
+  if (v.length < 5) {
+    el.classList.add('is-error'); el.classList.remove('is-ok');
+    setMsg('msgEmail', 'Alamat minimal 5 karakter');
+    return false;
+  }
+  el.classList.remove('is-error'); el.classList.add('is-ok');
+  setMsg('msgEmail', '');
+  return true;
+}
+
+function validateWa(el) {
+  const raw = el.value.replace(/\D/g, '');
+  if (raw.length < 10 || raw.length > 15) {
+    el.classList.add('is-error'); el.classList.remove('is-ok');
+    setMsg('msgWa', 'Nomor WA 10–15 digit');
+    return false;
+  }
+  el.classList.remove('is-error'); el.classList.add('is-ok');
+  setMsg('msgWa', '');
+  return true;
+}
+
+function validateApp(el) {
+  if (!el.value) {
+    el.classList.add('is-error'); el.classList.remove('is-ok');
+    setMsg('msgApp', 'Pilih aplikasi dulu');
+    return false;
+  }
+  el.classList.remove('is-error'); el.classList.add('is-ok');
+  setMsg('msgApp', '');
+  return true;
+}
+
+['fNama', 'fEmail', 'fWa', 'fApp'].forEach(id => {
+  const el = document.getElementById(id);
+  el.addEventListener('blur', () => {
+    if (id === 'fNama') validateNama(el);
+    if (id === 'fEmail') validateEmail(el);
+    if (id === 'fWa') validateWa(el);
+    if (id === 'fApp') validateApp(el);
+  });
+});
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const nama = document.getElementById('fNama');
+  const email = document.getElementById('fEmail');
+  const wa = document.getElementById('fWa');
+  const app = document.getElementById('fApp');
+  const btn = form.querySelector('button[type="submit"]');
+  const origLabel = btn.textContent;
+
+  const ok = [
+    validateNama(nama),
+    validateEmail(email),
+    validateWa(wa),
+    validateApp(app)
+  ].every(Boolean);
+  if (!ok) return;
+
+  const appObj = APPS.find(a => a.id === app.value);
+  const token = Math.random().toString(36).slice(2, 8).toUpperCase();
+  const summary = `${nama.value.trim()} · ${app.value} · trial:${token}`;
+  document.getElementById('trialSummary').textContent = summary;
+
+  btn.disabled = true;
+  btn.textContent = 'Mengirim...';
+
+  let saved = false;
+  try {
+    const payload = new URLSearchParams();
+    payload.append('action', 'LEAD_CREATE');
+    payload.append('nama', nama.value.trim());
+    payload.append('alamat', email.value.trim());
+    payload.append('wa', wa.value.trim());
+    payload.append('app_code', app.value);
+    const res = await fetch(GS_URL, { method: 'POST', body: payload });
+    // GAS POST biasanya balik 302 redirect ke script.googleusercontent.com — tetap anggap sukses
+    saved = res.ok || (res.status >= 300 && res.status < 400);
+  } catch (_) {}
+
+  if (!saved) {
+    btn.disabled = false;
+    btn.textContent = origLabel;
+    alert('Gagal menyimpan data. Coba lagi atau langsung chat WA.');
+    return;
+  }
+
+  /* — Write trial client to localStorage (admin control center) — */
+  (function saveTrialClientToAdmin() {
+    try {
+      const clients = JSON.parse(localStorage.getItem('ks_admin_clients') || '[]');
+      const now = new Date().toISOString();
+      const trialDays = 7;
+      const newClient = {
+        id: 'cli-' + Math.random().toString(36).slice(2, 7).toUpperCase(),
+        name: nama.value.trim(),
+        alamat: email.value.trim(),
+        phone: wa.value.trim(),
+        app_code: app.value,
+        status: 'trial',
+        trial_started: now,
+        trial_expires: new Date(Date.now() + trialDays * 86400000).toISOString(),
+        trial_extended: false,
+        source: 'landing',
+        created_at: now,
+        updated_at: now,
+      };
+      clients.unshift(newClient);
+      localStorage.setItem('ks_admin_clients', JSON.stringify(clients));
+    } catch (_) { /* non-critical: admin may also have data from Sheets */ }
+  })();
+
+  const msg = `Halo KASIRSOLO, saya mau trial aplikasi *${appObj?.name || app.value}*.%0A%0ANama: ${encodeURIComponent(nama.value.trim())}%0AAlamat: ${encodeURIComponent(email.value.trim())}%0AWA: ${encodeURIComponent(wa.value.trim())}%0AToken: ${token}`;
+  document.getElementById('waAfterTrial').href = `https://wa.me/${WA_NUMBER}?text=${msg}`;
+
+  formPanel.style.display = 'none';
+  formResult.classList.add('is-show');
+});
+
+document.getElementById('copySummary').addEventListener('click', async () => {
+  const text = document.getElementById('trialSummary').textContent;
+  try {
+    await navigator.clipboard.writeText(text);
+    document.getElementById('copySummary').textContent = 'Tersalin!';
+    setTimeout(() => { document.getElementById('copySummary').textContent = 'Salin'; }, 1600);
+  } catch {
+    document.getElementById('copySummary').textContent = 'Gagal';
+  }
+});
+
+/* =====================================================
+   REVEAL + COUNTERS
+===================================================== */
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('is-visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    const el = entry.target;
+    const target = parseInt(el.dataset.count, 10);
+    const suffix = el.dataset.suffix || '';
+    let cur = 0;
+    const step = Math.max(1, Math.ceil(target / 36));
+    const tick = () => {
+      cur = Math.min(target, cur + step);
+      el.textContent = cur + suffix;
+      if (cur < target) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+    counterObserver.unobserve(el);
+  });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('[data-count]').forEach(el => counterObserver.observe(el));
+
+/* =====================================================
+   HEADER SCROLL + NAV
+===================================================== */
+const header = document.getElementById('siteHeader');
+const progress = document.getElementById('headerProgress');
+const waFloat = document.getElementById('waFloat');
+const waTooltip = document.getElementById('waTooltip');
+const mobileCta = document.getElementById('mobileCta');
+const menuToggle = document.getElementById('menuToggle');
+const mobileNav = document.getElementById('mobileNav');
+
+function onScroll() {
+  const y = window.scrollY || 0;
+  header.classList.toggle('is-scrolled', y > 24);
+  const docH = document.documentElement.scrollHeight - window.innerHeight;
+  progress.style.width = (docH > 0 ? (y / docH) * 100 : 0) + '%';
+
+  const heroH = document.getElementById('hero').offsetHeight;
+  const showFloat = y > heroH * 0.45;
+  waFloat.classList.toggle('show', showFloat);
+  mobileCta.classList.toggle('show', showFloat);
+}
+
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+
+// Active nav
+const navSections = ['apps', 'how', 'features', 'pricing', 'faq']
+  .map(id => document.getElementById(id))
+  .filter(Boolean);
+
+const navObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    const link = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
+    if (!link) return;
+    if (entry.isIntersecting) {
+      document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+      link.classList.add('active');
+    }
+  });
+}, { rootMargin: '-40% 0px -50% 0px', threshold: 0 });
+
+navSections.forEach(sec => navObserver.observe(sec));
+
+// Mobile menu
+menuToggle.addEventListener('click', () => {
+  const open = menuToggle.classList.toggle('is-open');
+  mobileNav.classList.toggle('is-open', open);
+  menuToggle.setAttribute('aria-expanded', String(open));
+  menuToggle.setAttribute('aria-label', open ? 'Tutup menu' : 'Buka menu');
+});
+
+mobileNav.querySelectorAll('[data-mobile-nav]').forEach(a => {
+  a.addEventListener('click', () => {
+    menuToggle.classList.remove('is-open');
+    mobileNav.classList.remove('is-open');
+    menuToggle.setAttribute('aria-expanded', 'false');
+  });
+});
+
+// WA tooltip once
+let tooltipShown = false;
+const tipObserver = new MutationObserver(() => {
+  if (waFloat.classList.contains('show') && !tooltipShown) {
+    tooltipShown = true;
+    waTooltip.classList.add('show');
+    setTimeout(() => waTooltip.classList.remove('show'), 4200);
+  }
+});
+tipObserver.observe(waFloat, { attributes: true, attributeFilter: ['class'] });
+
+/* =====================================================
+   TESTIMONIAL SCROLL
+===================================================== */
+const testiTrack = document.getElementById('testiTrack');
+document.getElementById('testiPrev').addEventListener('click', () => {
+  testiTrack.scrollBy({ left: -320, behavior: 'smooth' });
+});
+document.getElementById('testiNext').addEventListener('click', () => {
+  testiTrack.scrollBy({ left: 320, behavior: 'smooth' });
+});
+
+/* =====================================================
+   PHONE TILT (desktop)
+===================================================== */
+const phone = document.getElementById('phoneMock');
+const visual = document.querySelector('.hero-visual');
+if (visual && phone && window.matchMedia('(pointer:fine)').matches) {
+  visual.addEventListener('mousemove', (e) => {
+    const rect = visual.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    phone.style.transform = `rotateY(${-8 + x * 12}deg) rotateX(${4 - y * 10}deg)`;
+  });
+  visual.addEventListener('mouseleave', () => {
+    phone.style.transform = 'rotateY(-8deg) rotateX(4deg)';
+  });
+}
+
+/* Prefill app from hash query ?app=retail */
+(() => {
+  const params = new URLSearchParams(location.search);
+  const app = params.get('app');
+  if (app && APPS.some(a => a.id === app)) {
+    const select = document.getElementById('fApp');
+    if (select) select.value = app;
+  }
+})();
+</script>
+</body>
+</html>
