@@ -31,6 +31,7 @@
   --brand-dark:#D6501C;
   --brand-light:#FDBA5C;
   --grad: linear-gradient(135deg, var(--brand-light) 0%, var(--brand) 55%, var(--brand-dark) 100%);
+  --grad-green: linear-gradient(135deg, #4ECDC4 0%, #51CF66 55%, #2F9E44 100%);
   --ink:#2B2420;
   --ink-soft:#6B5F54;
   --paper:#FBF6EF;
@@ -173,6 +174,7 @@ main{flex:1; padding:16px 16px 100px 16px;}
 .btn-ghost{background:transparent; color:var(--brand-dark); font-weight:700;}
 .btn-danger{background:var(--red-soft); color:var(--red);}
 .btn-sm{padding:9px 12px; font-size:13px; border-radius:10px; width:auto;}
+.btn-extend{background:var(--grad-green); color:#fff; border:none; padding:14px 16px; border-radius:14px; font-weight:700; font-size:15px; cursor:pointer; width:100%; box-shadow:0 6px 16px rgba(47,158,68,0.3);}
 .btn-block-row{display:flex; gap:10px;}
 
 .btn-backup-action{display:flex; flex-direction:row; align-items:center; justify-content:center; gap:10px; padding:14px 12px; border:1.5px solid var(--line); border-radius:12px; background:#fff; cursor:pointer; font-weight:700; font-size:13px; color:var(--ink); transition:all 0.2s;}
@@ -216,7 +218,7 @@ nav.bottomnav{
 @media (min-width: 1024px){
   .kat-grid{grid-template-columns:repeat(auto-fill, minmax(160px, 1fr)); gap:20px;}
 }
-.kat-item{background:#fff; border:1.5px solid var(--line); border-radius:var(--radius-md); padding:12px 6px; text-align:center; cursor:pointer;}
+.kat-item{background:#fff; border:1.5px solid var(--line); border-radius:var(--radius-md); padding:12px 6px; text-align:center; cursor:pointer; position:relative;}
 .kat-item .emoji{font-size:24px;}
 .kat-item .nm{font-size:12px; font-weight:700; margin-top:6px; line-height:1.2;}
 .kat-item .hg{font-size:10.5px; color:var(--ink-soft); margin-top:2px;}
@@ -272,6 +274,14 @@ nav.bottomnav{
 .row-amt.green{color:var(--green);}
 .row-amt.red{color:var(--red);}
 
+/* Compact list untuk Buku Kas & Riwayat Shift (lebih rapat & proporsional) */
+.compact-list .row-item{padding:8px 2px; gap:10px;}
+.compact-list .row-icon{width:32px; height:32px; border-radius:10px; font-size:14px;}
+.compact-list .row-title{font-size:13px; line-height:1.3;}
+.compact-list .row-sub{font-size:11px; margin-top:1px; line-height:1.35;}
+.compact-list .row-amt{font-size:13px;}
+.compact-list .badge{padding:2px 7px; font-size:10px;}
+
 .tabs{display:flex; gap:6px; background:#fff; border:1px solid var(--line); border-radius:12px; padding:4px; margin-bottom:14px;}
 .tab-btn{flex:1; text-align:center; padding:9px 0; border-radius:9px; font-size:13px; font-weight:700; color:var(--ink-soft); cursor:pointer;}
 .tab-btn.active{background:var(--grad); color:#fff;}
@@ -311,7 +321,7 @@ nav.bottomnav{
 
 /* misc */
 .flex-between{display:flex; align-items:center; justify-content:space-between;}
-.mt8{margin-top:8px;} .mt12{margin-top:12px;} .mt16{margin-top:16px;} .mb0{margin-bottom:0;}
+.mt8{margin-top:8px;} .mt10{margin-top:10px;} .mt12{margin-top:12px;} .mt16{margin-top:16px;} .mb0{margin-bottom:0;}
 .total-bar{position:sticky; bottom:0; background:var(--surface); border-top:1px solid var(--line); padding:14px 16px calc(14px + var(--safe-bottom)); border-radius:18px 18px 0 0; box-shadow:0 -6px 16px rgba(0,0,0,0.06);}
 .badge{display:inline-block; padding:3px 9px; border-radius:99px; font-size:11px; font-weight:700;}
 .badge.green{background:var(--green-soft); color:var(--green);}
@@ -353,6 +363,14 @@ body.transaksi-active main{padding-bottom:170px;}
 .stok-bar-inner{max-width:100%; width:100%; background:var(--surface); border-top:1px solid var(--line); padding:12px 16px; box-shadow:0 -6px 16px rgba(0,0,0,0.08); border-radius:18px 18px 0 0; pointer-events:auto;}
 @media (min-width: 768px){
   .stok-bar-inner{max-width:720px; margin:0 auto;}
+}
+
+/* Sticky action bar di layar Laporan (Catat Kas, pola sama seperti stokBar) */
+.kas-bar{position:fixed; left:0; right:0; bottom:calc(var(--navheight) + var(--safe-bottom)); z-index:59; display:none; justify-content:center; pointer-events:none;}
+.kas-bar.show{display:flex;}
+.kas-bar-inner{max-width:100%; width:100%; background:var(--surface); border-top:1px solid var(--line); padding:12px 16px; box-shadow:0 -6px 16px rgba(0,0,0,0.08); border-radius:18px 18px 0 0; pointer-events:auto;}
+@media (min-width: 768px){
+  .kas-bar-inner{max-width:720px; margin:0 auto;}
 }
 
 /* ============ TABLET RESPONSIVE STYLES ============ */
@@ -425,6 +443,7 @@ body.transaksi-active main{padding-bottom:170px;}
   .section-label{font-size:14px; margin:28px 2px 14px 2px;}
 }
 body.stok-active main{padding-bottom:170px;}
+body.laporan-active main{padding-bottom:170px;}
 
 /* ============ LOADING INDICATOR ============ */
 .loading-overlay{position:fixed; inset:0; background:rgba(0,0,0,0.5); display:none; align-items:center; justify-content:center; z-index:999; backdrop-filter:blur(2px);}
@@ -659,14 +678,20 @@ body.stok-active main{padding-bottom:170px;}
       </div>
       <div class="card">
         <div class="flex-between"><h3 class="mb0">Buku Kas</h3><span class="badge green" id="kasSaldoBadge">Rp 0</span></div>
-        <button class="btn btn-primary mt12" onclick="openKasForm()">➕ Catat Kas Masuk / Keluar Manual</button>
-        <div id="kasList" class="mt12"></div>
+        <div id="kasList" class="mt10 compact-list"></div>
       </div>
       <div class="card">
-        <h3>Riwayat Buka/Tutup Kas</h3>
-        <div id="kasShiftHistoryList"></div>
+        <h3 class="mb0">Riwayat Buka/Tutup Kas</h3>
+        <div id="kasShiftHistoryList" class="mt10 compact-list"></div>
       </div>
     </section>
+
+    <!-- Sticky bar: Catat Kas (melayang di atas bottom nav, pola sama seperti stokBar) -->
+    <div class="kas-bar" id="kasBar">
+      <div class="kas-bar-inner">
+        <button class="btn btn-primary" onclick="openKasForm()">➕ Catat Kas Masuk / Keluar Manual</button>
+      </div>
+    </div>
 
     <!-- ============ PENGATURAN ============ -->
     <section class="screen" id="screen-pengaturan">
@@ -870,24 +895,13 @@ body.stok-active main{padding-bottom:170px;}
 <div id="lockOverlay">
   <div class="lock-card">
     <img id="lockLogo" src="" alt="logo">
-    <h2 style="font-size:18px; margin:0 0 6px 0;">Masa Percobaan Berakhir</h2>
-    <p style="font-size:13.5px; color:var(--ink-soft); margin:0 0 16px 0;">Aktifkan lisensi untuk terus memakai Kasir Solo - Rosok, atau tambah masa coba gratis.</p>
-    <div class="contact-strip" style="background:var(--paper); border:1px dashed var(--line); cursor:pointer;" onclick="copyDeviceId()">
-      <span>📋</span>
-      <span style="color:var(--ink); font-size:12.5px;">Device Code: <b class="mono" id="lockDeviceIdVal">-</b><br><span style="color:var(--ink-soft);">Ketuk untuk salin — kirim ini saat beli lisensi</span></span>
-    </div>
-    <div class="field mt12" style="text-align:left;">
-      <label class="field-label">Masukkan Kode Lisensi</label>
-      <input type="text" id="lockLicenseInput" placeholder="KSR-XXXX-XXXX-XXXXXX" style="text-transform:uppercase;">
-    </div>
-    <button class="btn btn-primary" onclick="activateLicense('lockLicenseInput')">🔓 Aktifkan Lisensi</button>
-    <div id="lockExtendArea" class="mt12"></div>
-    <div class="divider"></div>
-    <p style="font-size:12.5px; color:var(--ink-soft); margin-bottom:8px;">Butuh lisensi? Hubungi kami:</p>
-    <div class="btn-block-row">
-      <button class="btn btn-outline" onclick="contactViaWA()">💬 WhatsApp</button>
-      <button class="btn btn-outline" onclick="contactViaEmail()">✉️ Email</button>
-    </div>
+    <div style="font-size:48px; margin-bottom:8px;">🔒</div>
+    <h2 style="font-size:18px; margin:0 0 6px 0;">Masa Coba Gratis Habis</h2>
+    <p style="font-size:13.5px; color:var(--ink-soft); margin:0 0 16px 0; line-height:1.5;">
+      Wah, masa coba gratis sudah habis! 😢<br>
+      Aktifkan lisensi atau tambah 1 hari supaya bisa terus mencatat transaksi.
+    </p>
+    <div id="lockLicenseStatusArea"></div>
   </div>
 </div>
 
@@ -1368,6 +1382,13 @@ function showScreen(name){
     document.body.classList.remove('stok-active');
     document.getElementById('stokBar').classList.remove('show');
   }
+  if(name === 'laporan'){
+    document.body.classList.add('laporan-active');
+    document.getElementById('kasBar').classList.add('show');
+  } else {
+    document.body.classList.remove('laporan-active');
+    document.getElementById('kasBar').classList.remove('show');
+  }
   window.scrollTo(0,0);
 }
 
@@ -1437,6 +1458,23 @@ function renderKatGrid(){
     const harga = activeTransTipe === 'beli' ? k.hargaBeli : k.hargaJual;
     // ✅ Security: Escape HTML to prevent XSS
     div.innerHTML = `<div class="emoji">${escapeHtml(k.emoji||'♻️')}</div><div class="nm">${escapeHtml(k.nama)}</div><div class="hg">${fmtRupiah(harga)}/kg</div>`;
+    // Add stock indicator in top-right corner
+    if (!disabled) {
+      const stockEl = document.createElement('div');
+      stockEl.className = 'kat-stock';
+      stockEl.style.position = 'absolute';
+      stockEl.style.top = '4px';
+      stockEl.style.right = '4px';
+      stockEl.style.background = 'var(--green-soft)';
+      stockEl.style.color = 'var(--green)';
+      stockEl.style.borderRadius = '10px';
+      stockEl.style.padding = '2px 6px';
+      stockEl.style.fontSize = '11px';
+      stockEl.style.fontWeight = '700';
+      stockEl.style.pointerEvents = 'none';
+      stockEl.textContent = fmtKg(k.stokKg||0);
+      div.appendChild(stockEl);
+    }
     div.onclick = ()=> !disabled && openTimbang(k);
     grid.appendChild(div);
   });
@@ -2511,15 +2549,18 @@ function isLicensed(){
 function checkLicenseGate(){
   updateTrialChip();
   renderLicenseInfoCard();
-  const lockIdEl = document.getElementById('lockDeviceIdVal');
-  if(lockIdEl) lockIdEl.textContent = SETTINGS.deviceCode || getDeviceIdForLicense() || '-';
   if(isLicensed()){
     document.getElementById('lockOverlay').classList.remove('show');
     return;
   }
   const left = daysLeft();
   if(left <= 0){
-    renderLockOverlayExtend();
+    // Render license status HTML (includes buttons moved between status and device code)
+    const extUsed = SETTINGS.extensionsUsed || 0;
+    const statusArea = document.getElementById('lockLicenseStatusArea');
+    if(statusArea) {
+      statusArea.innerHTML = licenseStatusHtml(left, extUsed, 'lockLicenseInput');
+    }
     document.getElementById('lockOverlay').classList.add('show');
   } else {
     document.getElementById('lockOverlay').classList.remove('show');
@@ -2545,7 +2586,6 @@ function openLicenseSheet(){
   openOverlay('sheetLicense');
 }
 function licenseStatusHtml(left, extUsed, inputId){
-  const deviceRow = `<div class="contact-strip" style="background:var(--paper); border:1px dashed var(--line); cursor:pointer;" onclick="copyDeviceId()"><span>📋</span><span style="font-size:12.5px;">Device Code: <b class="mono">${SETTINGS.deviceCode||getDeviceIdForLicense()||'-'}</b><br><span style="color:var(--ink-soft);">Ketuk untuk salin — kirim ini saat beli lisensi</span></span></div>`;
   if(isLicensed()){
     // Cek tipe lisensi (v1 ISO date vs v2 expCode)
     const expRaw = SETTINGS.licenseExpiry;
@@ -2555,28 +2595,29 @@ function licenseStatusHtml(left, extUsed, inputId){
     } else if (expRaw) {
       expTxt = 'Berlaku sampai ' + fmtDate(expRaw).split(' ').slice(0,3).join(' ');
     }
-    return `<div class="card" style="box-shadow:none;"><div class="badge green">✓ Lisensi Aktif</div><p style="font-size:13px; color:var(--ink-soft); margin-top:10px;">Kode: <b>${SETTINGS.licenseKey||'-'}</b><br>${expTxt}</p></div>${deviceRow}`;
+    return `<div class="card" style="box-shadow:none; text-align:center; padding:20px;">
+      <div style="font-size:40px; margin-bottom:8px;">✅</div>
+      <div class="badge green" style="font-size:13px; padding:6px 14px;">✓ Lisensi Aktif</div>
+      <p style="font-size:13px; color:var(--ink-soft); margin-top:10px;">Kode: <b>${SETTINGS.licenseKey||'-'}</b><br>${expTxt}</p>
+    </div>`;
   }
   return `
     <div class="card" style="box-shadow:none;">
-      <div class="flex-between"><span>Status</span><span class="badge ${left>2?'orange':'red'}">${left>0? left+' hari tersisa' : 'Trial berakhir'}</span></div>
-      <div class="flex-between mt8"><span>Perpanjangan dipakai</span><b>${extUsed}/${MAX_EXTENSIONS}</b></div>
+      <div style="text-align:center; margin-bottom:12px;">
+        <div style="font-size:32px; margin-bottom:6px;">⏰</div>
+        <div style="font-size:14px; font-weight:700; color:var(--ink);">Masa Coba Gratis</div>
+        <div style="margin-top:6px;"><span class="badge ${left>2?'orange':'red'}" style="font-size:12px; padding:5px 12px;">${left>0? left+' hari tersisa' : 'Sudah habis'}</span></div>
+      </div>
+      <div class="flex-between" style="font-size:12px; color:var(--ink-soft);">
+        <span>Perpanjangan dipakai</span><b>${extUsed}/${MAX_EXTENSIONS}x</b>
+      </div>
+      ${extUsed < MAX_EXTENSIONS ? `<button class="btn-extend mt12" onclick="openExtendFlow()">🎁 Tambah 1 Hari Gratis (${MAX_EXTENSIONS-extUsed}x tersisa)</button>` : `<div class="hint mt12" style="font-size:12px; color:var(--ink-soft); text-align:center;">Jatah perpanjangan gratis sudah habis (maks ${MAX_EXTENSIONS}x). Silakan aktivasi lisensi resmi.</div>`}
     </div>
-    ${deviceRow}
     <div class="field mt12"><label class="field-label">Kode Lisensi</label><input type="text" id="${inputId}" placeholder="KSR-XXXX-XXXX-XX-XXXXXX" style="text-transform:uppercase;"></div>
-    <button class="btn btn-primary" onclick="activateLicense('${inputId}')">🔓 Aktifkan Lisensi</button>
-    ${extUsed < MAX_EXTENSIONS ? `<button class="btn btn-outline mt8" onclick="openExtendFlow()">🎁 Tambah 1 Hari Gratis (${MAX_EXTENSIONS-extUsed}x tersisa)</button>` : ''}
-    <button class="btn btn-ghost mt8" onclick="contactViaWA()">💬 Hubungi WhatsApp untuk beli lisensi</button>
+    <button class="btn btn-primary mt8" onclick="activateLicense('${inputId}')">🔓 Aktifkan Lisensi</button>
+    <button class="btn btn-ghost mt12" onclick="contactViaWA()">💬 Hubungi WhatsApp untuk beli lisensi</button>
   `;
 }
-function renderLockOverlayExtend(){
-  const extUsed = SETTINGS.extensionsUsed || 0;
-  const area = document.getElementById('lockExtendArea');
-  area.innerHTML = extUsed < MAX_EXTENSIONS
-    ? `<button class="btn btn-outline" onclick="openExtendFlow()">🎁 Tambah 1 Hari Gratis (bagikan ke kontak)</button><div class="hint mt8">Sisa jatah perpanjangan: ${MAX_EXTENSIONS - extUsed}x</div>`
-    : `<div class="hint">Jatah perpanjangan gratis sudah habis (maks ${MAX_EXTENSIONS}x). Silakan aktivasi lisensi resmi.</div>`;
-}
-
 function renderLicenseInfoCard(){
   const card = document.getElementById('licenseInfoCard');
   if(!card) return;
@@ -2585,15 +2626,6 @@ function renderLicenseInfoCard(){
   card.innerHTML = licenseStatusHtml(left, extUsed, 'licenseKeyInputSettings');
 }
 
-function copyDeviceId(){
-  const deviceCode = SETTINGS.deviceCode || getDeviceIdForLicense();
-  if(!deviceCode) return;
-  if(navigator.clipboard && navigator.clipboard.writeText){
-    navigator.clipboard.writeText(deviceCode).then(()=>toast('Device Code disalin!')).catch(()=>toast('Gagal menyalin, catat manual: '+deviceCode));
-  } else {
-    toast('Device Code: ' + deviceCode);
-  }
-}
 function contactViaWA(){
   const dc = SETTINGS.deviceCode || getDeviceIdForLicense();
   const text = `Halo, saya ingin aktivasi lisensi Kasir Solo - Rosok.\nDevice Code: ${dc}`;
