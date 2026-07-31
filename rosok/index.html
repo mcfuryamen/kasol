@@ -89,8 +89,6 @@ header.topbar{
 .trial-chip{background:rgba(255,255,255,0.2); border:1px solid rgba(255,255,255,0.35); color:#fff; font-size:10px; font-weight:700; padding:3px 8px; border-radius:99px; white-space:nowrap; flex-shrink:0;}
 .trial-chip.warn{background:#fff; color:var(--brand-dark);}
 .trial-badge{background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.3); color:#fff; padding:6px 10px; border-radius:10px; text-align:center; flex-shrink:0; min-width:60px;}
-.btn-header-aktivasi{background:transparent; border:1.5px solid #fff; color:#fff; font-weight:700; font-size:12px; padding:6px 12px; border-radius:8px; cursor:pointer; flex-shrink:0;}
-.btn-header-aktivasi:active{transform:scale(0.95);}
 .btn-header-settings{background:rgba(255,255,255,0.2); border:none; color:#fff; font-size:18px; width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0;}
 .btn-header-settings:active{transform:scale(0.95);}
 .header-title{font-size:20px; margin:14px 0 2px 0;}
@@ -481,7 +479,6 @@ body.laporan-active main{padding-bottom:170px;}
         <div style="font-size:9px; opacity:0.9;">TRIAL SKA</div>
         <div style="font-weight:700; font-size:12px;">7 hari</div>
       </div>
-      <button class="btn-header-aktivasi" onclick="openLicenseSheet()">AKTIVASI</button>
       <button class="btn-header-settings" onclick="showScreen('pengaturan')">⚙️</button>
     </div>
   </header>
@@ -785,7 +782,7 @@ body.laporan-active main{padding-bottom:170px;}
 <div class="overlay" id="sheetNota">
   <div class="sheet">
     <div class="sheet-handle"></div>
-    <div class="sheet-title"><span>Nota Transaksi</span><span class="sheet-close" onclick="closeSheet('sheetNota'); showScreen('dashboard');">✕</span></div>
+    <div class="sheet-title"><span>Nota Transaksi</span><span class="sheet-close" onclick="closeSheet('sheetNota')">✕</span></div>
     <div id="printArea">
       <div class="card" id="notaBody" style="box-shadow:none;"></div>
     </div>
@@ -1888,33 +1885,25 @@ async function renderRiwayat(){
 }
 
 async function loadRiwayatPage(){
-  // ✅ OPTIMASI #4: Pagination - hanya load 20 transaksi per halaman
+  // ✅ FIX Bug R1: Filter diterapkan SEBELUM pagination agar tidak ada data terlewat
+  // ✅ FIX Bug R4: Transaksi void dikecualikan dari riwayat
   const offset = riwayatPage * RIWAYAT_PER_PAGE;
-  let list = await db.transaksi
-    .orderBy('tanggal')
-    .reverse()
-    .offset(offset)
-    .limit(RIWAYAT_PER_PAGE)
-    .toArray();
-
-  if(riwayatFilter !== 'semua') list = list.filter(t=>t.tipe===riwayatFilter);
+  let query = db.transaksi.orderBy('tanggal').reverse();
+  if(riwayatFilter !== 'semua') query = query.where('tipe').equals(riwayatFilter);
+  // ✅ FIX Bug R4: Kucualikan transaksi yang sudah di-void
+  const allTransForRiwayat = await query.offset(offset).limit(RIWAYAT_PER_PAGE + 1).toArray();
+  let list = allTransForRiwayat.filter(t => !t.void);
 
   // Cek apakah masih ada data lebih banyak untuk "Load More"
-  const totalFiltered = await db.transaksi
-    .where('tanggal')
-    .anyOf([]) // placeholder, akan diquery terpisah
-    .toArray();
-
-  const hasMore = list.length === RIWAYAT_PER_PAGE;
+  const hasMore = list.length > RIWAYAT_PER_PAGE;
+  if(hasMore) list = list.slice(0, RIWAYAT_PER_PAGE);
 
   const card = document.getElementById('riwayatCard');
   if(!card) return;
 
   if(list.length===0){
     card.innerHTML = `<div class="empty-state"><div class="ic">🧾</div><div class="t1">Belum ada transaksi</div><div class="t2">Transaksi beli/jual akan muncul di sini</div></div>`;
-    if(hasMore){
-      card.innerHTML += '<div style="text-align:center; padding:16px;"><button class="btn btn-soft btn-sm" onclick="loadRiwayatPage()">Muat Lebih Banyak</button></div>';
-    }
+    // ✅ FIX Bug R3: Tidak ada tombol "Muat Lebih Banyak" saat list kosong
     return;
   }
 
@@ -2047,8 +2036,6 @@ async function renderLaporan(){
 
   // Group data sekali pass - lebih efisien dari filter berulang
   const stats = {
-    beliSemua: {total: 0},
-    jualSemua: {total: 0},
     beliPeriode: {total: 0},
     jualPeriode: {total: 0},
     utang: {total: 0},
@@ -2056,9 +2043,10 @@ async function renderLaporan(){
     pengeluaran: {total: 0}
   };
 
-  // Daily stats untuk bar chart
+  // ✅ FIX Bug L1: Chart omzet dinamis mengikuti periode yang dipilih
+  const chartDays = laporanPeriode === 'all' ? 30 : parseInt(laporanPeriode);
   const dailyStats = {};
-  for(let i=0;i<7;i++){
+  for(let i=0; i<chartDays; i++){
     const d = new Date(); d.setDate(d.getDate()-i);
     const key = d.toISOString().slice(0,10);
     dailyStats[key] = {beli:0, jual:0};
@@ -2066,12 +2054,9 @@ async function renderLaporan(){
 
   // Single pass - hitung semua sekaligus
   for(const t of allTrans){
+    if(t.void) continue; // ✅ FIX Bug L2: Kucualikan transaksi yang sudah di-void
     const isBeli = t.tipe === 'beli';
     const isInPeriode = t.tanggal >= startStr;
-
-    // Total semua waktu
-    if(isBeli) stats.beliSemua.total += t.total || 0;
-    else stats.jualSemua.total += t.total || 0;
 
     // Total periode
     if(isInPeriode){
@@ -2085,7 +2070,7 @@ async function renderLaporan(){
       else stats.piutang.total += t.sisa;
     }
 
-    // Daily stats (7 hari terakhir)
+    // Daily stats
     const dayKey = t.tanggal.slice(0,10);
     if(dailyStats[dayKey]){
       if(isBeli) dailyStats[dayKey].beli += t.total || 0;
@@ -2114,7 +2099,7 @@ async function renderLaporan(){
   if(DOMlapLaba) DOMlapLaba.textContent = fmtRupiah(stats.jualPeriode.total - stats.beliPeriode.total - stats.pengeluaran.total);
   if(DOMkasSaldoBadge) DOMkasSaldoBadge.textContent = fmtRupiah(saldo);
 
-  // Bar chart 7 hari terakhir - lebih cepat dengan object grouping
+  // Bar chart omzet sesuai periode - lebih cepat dengan object grouping
   let maxVal = 1;
   const days = Object.keys(dailyStats).sort().reverse();
   const dayData = days.map(d=>{
@@ -2144,7 +2129,7 @@ async function renderLaporan(){
   const byKat = {};
   for(const it of items){
     const tr = transMap[it.transaksiId];
-    if(tr && tr.tanggal >= startStr){
+    if(tr && !tr.void && tr.tanggal >= startStr){
       byKat[it.kategoriNama] = (byKat[it.kategoriNama]||0) + it.berat;
     }
   }
@@ -2157,8 +2142,8 @@ async function renderLaporan(){
     `).join('') : '<div class="hint">Belum ada data</div>';
   }
 
-  // Utang & piutang tempo (semua waktu, bukan tergantung periode laporan)
-  const tempoTrans = allTrans.filter(t=>(t.sisa||0) > 0).sort((a,b)=> new Date(b.tanggal)-new Date(a.tanggal));
+    // Utang & piutang tempo (semua waktu, bukan tergantung periode laporan)
+  const tempoTrans = allTrans.filter(t=>!t.void && (t.sisa||0) > 0).sort((a,b)=> new Date(b.tanggal)-new Date(a.tanggal));
   if(DOMtempoList){
     DOMtempoList.innerHTML = tempoTrans.length ? tempoTrans.map(t=>`
       <div class="row-item" onclick="openLunasi(${t.id})">
