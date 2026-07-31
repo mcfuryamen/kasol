@@ -1698,14 +1698,12 @@ async function saveTransaksi(){
       }));
       await db.transaksiItem.bulkAdd(items);
 
-      // Update stok semua kategori sekaligus
-      const stokUpdates = [];
+      // Update stok semua kategori
       for(const item of cart){
         const kat = await db.kategori.get(item.kategoriId);
         const newStok = activeTransTipe==='beli' ? (kat.stokKg||0) + item.berat : (kat.stokKg||0) - item.berat;
-        stokUpdates.push({id: item.kategoriId, stokKg: Math.max(0, Math.round(newStok*1000)/1000)});
+        await db.kategori.update(item.kategoriId, {stokKg: Math.max(0, Math.round(newStok*1000)/1000)});
       }
-      await db.kategori.bulkUpdate(stokUpdates);
 
       // Tambah kas jika ada pembayaran
       if(dibayarkan > 0){
