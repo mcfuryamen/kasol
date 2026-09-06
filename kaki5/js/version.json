@@ -1,0 +1,7 @@
+{
+  "version": "1.0.108",
+  "cacheBust": "v183",
+  "notes": [
+    "Legenda warna grafik di Laporan kini berada di bawah batang pada semua filter periode (Harian, Mingguan, Bulanan, Custom) — konsisten dibaca setelah bentuknya."
+  ]
+}
