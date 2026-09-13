@@ -1,0 +1,7 @@
+{
+  "version": "1.4.10",
+  "cacheBust": "v71",
+  "notes": [
+    "Perbaikan identitas perangkat (adopsi kaki5): kode lisensi era lama tetap diterima walau data browser dibersihkan atau ganti browser, ID perangkat yang tampil selalu kode aktif, dan aktivasi lisensi tidak lagi gagal diam-diam saat aplikasi dibuka lewat alamat http://IP-LAN."
+  ]
+}
