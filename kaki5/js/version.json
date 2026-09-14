@@ -1,0 +1,11 @@
+{
+  "version": "1.0.123",
+  "cacheBust": "v198",
+  "notes": [
+    "Halaman Bantuan kini 3 tab: 📖 Tutorial | 🎬 Video | 📜 S & K — syarat & ketentuan pindah ke tabnya sendiri dan dibersihkan dari teks basi; tombol '✓ Saya Setuju' tetap tercatat sekali.",
+    "Riwayat versi pindah tempat: ketuk baris 'Versi …' di Pengaturan → Tentang Aplikasi.",
+    "Judul header aplikasi sekarang menampilkan NAMA USAHA-mu; baris dua bertuliskan 'Kasir Solo - Kaki Lima'.",
+    "ID Perangkat kini tampil tepat di bawah nomor seri lisensi — tidak lagi di bagian bawah.",
+    "Hero Bantuan berubah jadi gradasi oranye senada header; tab 🎬 Video siap menampilkan video tutorial yang admin publikasikan lewat Control Center."
+  ]
+}

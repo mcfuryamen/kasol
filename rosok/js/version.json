@@ -1,0 +1,10 @@
+{
+  "version": "1.4.16",
+  "cacheBust": "v77",
+  "notes": [
+    "Halaman 📖 Bantuan kini punya 3 tab: Tutorial | 🎬 Video | 📜 S & K — syarat & ketentuan pindah ke tabnya sendiri.",
+    "Riwayat versi pindah tempat: ketuk baris 'Versi …' di Pengaturan → Tentang Aplikasi.",
+    "Kartu hero Bantuan tampil dengan sentuhan oranye gradasi, dibedakan dari isi di bawahnya.",
+    "Tab 🎬 Video siap menampilkan video tutorial yang admin publikasikan lewat Control Center — muncul otomatis."
+  ]
+}
