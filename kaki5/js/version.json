@@ -1,0 +1,7 @@
+{
+  "version": "1.0.134",
+  "cacheBust": "v209",
+  "notes": [
+    "Perbaikan penting: tombol OKE di layar pembaruan tidak akan lagi menampilkan overlay berulang kali — aplikasi langsung memuat versi baru yang sesungguhnya."
+  ]
+}
