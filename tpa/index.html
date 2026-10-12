@@ -41,7 +41,7 @@ a{text-decoration:none;color:inherit}
 .hero h1{font-size:clamp(28px,5vw,52px);font-weight:900;line-height:1.1;margin-bottom:16px}
 .hero h1 em{font-style:normal;color:#ea580c}
 .hero .sub{font-size:17px;color:#475569;margin-bottom:28px;max-width:640px;margin-left:auto;margin-right:auto}
-.hero .btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.hero .btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;align-items:center}
 .btn-h{padding:14px 28px;border-radius:12px;font-size:15px;font-weight:700;display:inline-flex;align-items:center;gap:8px;border:none;cursor:pointer;font-family:inherit;transition:all .15s}
 .btn-h.pri{background:#ea580c;color:#fff;box-shadow:0 4px 16px rgba(234,88,12,.3)}
 .btn-h.pri:hover{background:#c2410c;transform:translateY(-1px)}
@@ -55,7 +55,7 @@ a{text-decoration:none;color:inherit}
 .sb-i .l{font-size:13px;color:#475569}
 
 /* Sections */
-.sec{padding:64px 0}.sec.alt{background:#f8fafc}
+section.sec{padding:64px 0}section.sec.alt{background:#f8fafc}
 .sec-h{text-align:center;margin-bottom:40px}
 .sec-h .ov{font-size:12px;font-weight:700;color:#ea580c;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
 .sec-h h2{font-size:28px;font-weight:800;margin-bottom:8px}
@@ -99,16 +99,6 @@ a{text-decoration:none;color:inherit}
 .ct-card .ci{width:44px;height:44px;background:#fff7ed;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
 .ct-card .cl{font-size:12px;color:#94a3b8}.ct-card .cv{font-size:14px;font-weight:600}
 
-/* Ekosistem login */
-.eco-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
-.eco-card{background:#fff;border:2px solid #e2e8f0;border-radius:20px;padding:28px;text-align:center;transition:all .25s;cursor:pointer;overflow:hidden}
-.eco-card:hover{border-color:#ea580c;box-shadow:0 8px 24px rgba(234,88,12,.12);transform:translateY(-4px)}
-.eco-card .e-em{font-size:48px;margin-bottom:12px;display:block}
-.eco-card h3{font-size:18px;font-weight:800;margin-bottom:6px}
-.eco-card p{font-size:13px;color:#475569;margin-bottom:16px}
-.eco-card .e-btn{display:inline-flex;align-items:center;gap:6px;padding:10px 24px;background:#ea580c;color:#fff;border-radius:99px;font-weight:700;font-size:13px;transition:all .15s}
-.eco-card:hover .e-btn{background:#c2410c}
-
 /* Footer */
 .footer{background:#0f172a;color:#94a3b8;padding:32px 0;text-align:center;font-size:13px}
 .footer a{color:#ea580c;font-weight:600}
@@ -143,7 +133,7 @@ select.fi{-webkit-appearance:menulist;appearance:menulist;cursor:pointer}
       <a href="#pengajar">Pengajar</a>
       <a href="#pendaftaran">Pendaftaran</a>
       <a href="#kontak">Kontak</a>
-      <a href="#" class="btn-gate" onclick="event.preventDefault();openGate()">🔐 Masuk Sistem</a>
+      <a href="login.html" class="btn-gate">🔐 Masuk Sistem</a>
     </div>
     <button class="menu-tog" onclick="document.getElementById('mob-menu').classList.toggle('show')">☰</button>
   </div>
@@ -154,7 +144,7 @@ select.fi{-webkit-appearance:menulist;appearance:menulist;cursor:pointer}
   <a href="#pengajar" onclick="closeMM()">Pengajar</a>
   <a href="#pendaftaran" onclick="closeMM()">Pendaftaran</a>
   <a href="#kontak" onclick="closeMM()">Kontak</a>
-  <a href="#" style="background:#ea580c;color:#fff;text-align:center;border-radius:10px;font-weight:700;margin-top:8px" onclick="event.preventDefault();closeMM();openGate()">🔐 Masuk Sistem</a>
+  <a href="login.html" style="background:#ea580c;color:#fff;text-align:center;border-radius:10px;font-weight:700;margin-top:8px">🔐 Masuk Sistem</a>
 </div>
 
 <!-- HERO -->
@@ -281,37 +271,6 @@ select.fi{-webkit-appearance:menulist;appearance:menulist;cursor:pointer}
   </div>
 </section>
 
-<!-- EKOSISTEM (Login Gate) -->
-<section class="sec" id="ekosistem">
-  <div class="ctr">
-    <div class="sec-h">
-      <div class="ov">Sistem Informasi</div>
-      <h2>Portal Digital TPA</h2>
-      <p>Akses sistem manajemen TPA sesuai peran Anda. Data terpusat dan terintegrasi.</p>
-    </div>
-    <div class="eco-grid">
-      <div class="eco-card" onclick="loginAs('admin')">
-        <span class="e-em">👑</span>
-        <h3>Admin / Kepala TPA</h3>
-        <p>Kelola seluruh data: santri, ustadz, kelas, keuangan, kurikulum, dan pengaturan sistem.</p>
-        <div class="e-btn">Masuk sebagai Admin →</div>
-      </div>
-      <div class="eco-card" onclick="loginAs('ustadz')">
-        <span class="e-em">👳</span>
-        <h3>Ustadz / Pengajar</h3>
-        <p>Input absensi, hafalan, iqro harian. Lihat kelas yang diampu, jadwal, dan kurikulum.</p>
-        <div class="e-btn">Masuk sebagai Guru →</div>
-      </div>
-      <div class="eco-card" onclick="loginAs('wali')">
-        <span class="e-em">👨‍👩‍👧</span>
-        <h3>Wali Santri</h3>
-        <p>Pantau progres anak: hafalan, iqro, kehadiran, dan status pembayaran SPP.</p>
-        <div class="e-btn">Masuk sebagai Wali →</div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- KONTAK -->
 <section class="sec alt" id="kontak">
   <div class="ctr">
@@ -335,93 +294,9 @@ select.fi{-webkit-appearance:menulist;appearance:menulist;cursor:pointer}
 </footer>
 
 <!-- LOGIN GATE MODAL -->
-<div class="gate-ov" id="gate-ov" onclick="if(event.target===this)closeGate()">
-  <div class="gate-box">
-    <button onclick="closeGate()" style="position:absolute;top:16px;right:16px;border:none;background:none;font-size:20px;cursor:pointer;color:#94a3b8">✕</button>
-    <div class="gate-logo">🔐</div>
-    <h2 style="text-align:center;font-size:20px;font-weight:800;margin-bottom:4px">Masuk Sistem</h2>
-    <p style="text-align:center;font-size:13px;color:#475569;margin-bottom:20px">Akses portal sesuai peran Anda</p>
-    <div id="gate-err" class="hidden"></div>
-    <div class="ff">
-      <label>Masuk Sebagai</label>
-      <select class="fi" id="gate-role">
-        <option value="admin">👑 Admin / Kepala TPA</option>
-        <option value="ustadz">👳 Ustadz / Pengajar</option>
-        <option value="wali">👨‍👩‍👧 Wali Santri</option>
-      </select>
-    </div>
-    <div class="ff">
-      <label>Nama Anda</label>
-      <input class="fi" type="text" id="gate-name" placeholder="Ketik nama...">
-    </div>
-    <button class="btn-sub" onclick="doLogin()">Masuk →</button>
-    <p style="text-align:center;font-size:11px;color:#94a3b8;margin-top:16px">Powered by Kasir Solo - TPA</p>
-  </div>
-</div>
-
-<script src="https://unpkg.com/dexie@3.2.7/dist/dexie.min.js"></script>
-<script>if(typeof Dexie==='undefined')document.write('<script src="https://cdn.jsdelivr.net/npm/dexie@3.2.7/dist/dexie.min.js"><\/script>')</script>
-<script>
-'use strict';
-const db=new Dexie('KasirSoloTPA');
-db.version(1).stores({locations:'++id,name',students:'++id,locationId,isActive',teachers:'++id,locationId,isActive',guardians:'++id,locationId',classes:'++id,locationId',classStudents:'++id,classId,studentId',classTeachers:'++id,classId,teacherId,isPrimary',schedules:'++id,classId,teacherId,day',academicYears:'++id,locationId',curriculumCategories:'++id,locationId,name,sortOrder',curriculumMaterials:'++id,categoryId,title',classSessions:'++id,classId,teacherId,sessionDate',attendances:'++id,sessionId,studentId,status',hafalanProgress:'++id,studentId,surahNumber,type,grade,recordedAt',iqroProgress:'++id,studentId,jilid,page,grade,recordedAt',sppTypes:'++id,locationId,name,amount',sppBills:'++id,studentId,sppTypeId,billMonth,status,amount,paidAmount',payments:'++id,billId,studentId,amount,method,paidAt',cashFlows:'++id,locationId,type,category,amount,transactionDate',projects:'++id,locationId,title,status,priority',projectTasks:'++id,projectId,title,status',notifications:'++id,userId,type,title,isRead,createdAt',appSettings:'++id,locationId,key,value'});
-
-function setSession(s){localStorage.setItem('tpa_session',JSON.stringify(s))}
-function getSession(){try{return JSON.parse(localStorage.getItem('tpa_session'))}catch{return null}}
-
-window.addEventListener('scroll',()=>{document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>10)});
-function closeMM(){document.getElementById('mob-menu').classList.remove('show')}
-function openGate(){document.getElementById('gate-ov').classList.add('show')}
-function closeGate(){document.getElementById('gate-ov').classList.remove('show')}
-function loginAs(role){
-  document.getElementById('gate-role').value=role;
-  const names={admin:'Admin TPA',ustadz:'Ustadz Hasan',wali:'Bapak Ahmad'};
-  document.getElementById('gate-name').value=names[role]||'';
-  openGate();
-}
-
-async function doLogin(){
-  const role=document.getElementById('gate-role').value;
-  const name=document.getElementById('gate-name').value.trim();
-  if(!name){document.getElementById('gate-err').textContent='Nama harus diisi';document.getElementById('gate-err').classList.remove('hidden');return}
-  const locs=await db.locations.toArray();
-  if(!locs.length){document.getElementById('gate-err').textContent='Data belum siap, refresh halaman.';document.getElementById('gate-err').classList.remove('hidden');return}
-  setSession({name,role,locationId:locs[0].id,locationName:locs[0].name});
-  window.location.href={admin:'admin.html',ustadz:'guru.html',wali:'wali.html'}[role]||'admin.html';
-}
-
-// Load live stats from DB
-async function loadStats(){
-  try{
-    const loc=await db.locations.toArray();
-    if(!loc.length)return;
-    const lid=loc[0].id;
-    const sc=await db.students.where('locationId').equals(lid).filter(s=>s.isActive).count();
-    const tc=await db.teachers.where('locationId').equals(lid).count();
-    const cc=await db.classes.where('locationId').equals(lid).count();
-    document.getElementById('st-santri').textContent=sc;
-    document.getElementById('st-guru').textContent=tc;
-    document.getElementById('st-kelas').textContent=cc;
-
-    // Load teachers for team section
-    const teachers=await db.teachers.where('locationId').equals(lid).toArray();
-    const tg=document.getElementById('team-grid');
-    tg.innerHTML='';
-    if(!teachers.length){tg.innerHTML='<p style="color:#94a3b8;text-align:center;grid-column:1/-1">Data pengajar akan muncul setelah diinput di sistem admin.</p>';return}
-    teachers.forEach(t=>{
-      tg.innerHTML+=`<div class="team-card"><div class="t-av">${t.name.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase()}</div><h4>${t.name}</h4><div class="t-role">${t.gender==='L'?'Ustadz':'Ustadzah'}</div><div class="t-spec">${t.specialization||'Pengajar'}</div></div>`;
-    });
-
-    // Load address
-    if(loc[0].address)document.getElementById('ct-addr').textContent=loc[0].address;
-
-    // Prefill login
-    const s=getSession();
-    if(s){document.getElementById('gate-name').value=s.name;document.getElementById('gate-role').value=s.role}
-  }catch(e){console.warn(e)}
-}
-
-window.addEventListener('DOMContentLoaded',loadStats);
+<script type="module">
+  import { initLanding } from './pages/landing/index.js';
+  initLanding();
 </script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{})}</script>
 </body>

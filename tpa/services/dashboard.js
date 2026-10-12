@@ -3,10 +3,11 @@
  * Statistik ringkasan untuk dashboard semua role
  */
 import { db } from '../db/dexie.js';
+import { today } from '../db/init.js';
 
 /** Statistik utama untuk dashboard admin */
 export async function getAdminDashboard(locationId) {
-  const today = new Date().toISOString().split('T')[0];
+  const today = today();
   const [
     studentCount,
     teacherCount,
@@ -41,7 +42,7 @@ export async function getAdminDashboard(locationId) {
 
 /** Dashboard untuk ustadz (guru) */
 export async function getTeacherDashboard(teacherId) {
-  const today = new Date().toISOString().split('T')[0];
+  const today = today();
   const [
     myClasses,
     todaySessions,

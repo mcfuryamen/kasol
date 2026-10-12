@@ -39,8 +39,11 @@ export async function getUnreadCount(userId) {
 }
 
 /** Tandai sudah dibaca */
-export async function markAsRead(notificationId) {
+export async function markAsRead(notificationId, userId = null) {
+  const notification = await db.notifications.get(notificationId);
+  if (!notification || (userId != null && notification.userId !== userId)) return false;
   await db.notifications.update(notificationId, { isRead: true });
+  return true;
 }
 
 /** Tandai semua sudah dibaca */
@@ -50,8 +53,11 @@ export async function markAllAsRead(userId) {
 }
 
 /** Hapus notifikasi */
-export async function deleteNotification(id) {
+export async function deleteNotification(id, userId = null) {
+  const notification = await db.notifications.get(id);
+  if (!notification || (userId != null && notification.userId !== userId)) return false;
   await db.notifications.delete(id);
+  return true;
 }
 
 /** Bersihkan notifikasi lama (> 30 hari) */

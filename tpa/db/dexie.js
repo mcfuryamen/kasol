@@ -5,8 +5,8 @@
  */
 import Dexie from '../vendor/dexie.mjs';
 
-const DB_NAME = 'KasirSoloTPA';
-const DB_VERSION = 1;
+const DB_NAME = 'KasirSoloTPADB';
+const DB_VERSION = 7;
 
 class TPADatabase extends Dexie {
   constructor() {
@@ -17,81 +17,136 @@ class TPADatabase extends Dexie {
     //   ++id  → auto-increment primary key
     //   ,idx  → indexed field (untuk .where().equals())
     //   ,[idx1+idx2] → compound index (Dexie 4+)
-    this.version(DB_VERSION).stores({
+    // Skema ini HARUS identik dengan skema aktif di halaman HTML (v4).
+    // Jangan ubah tanpa bump DB_VERSION (Dexie gotcha: file pertama yang
+    // membuka DB menentukan skema; perubahan skema butuh bump versi).
+    this.version(6).stores({
+      // Pengaturan global (PK key) — konvensi ekosistem KasirSolo
+      settings: 'key',
+
       // Lokasi TPA (biasanya cuma 1)
-      locations: '++id, name, isActive',
+      locations: '++id,name',
 
       // User/login (admin, ustadz, wali)
-      users: '++id, role, locationId, name',
+      users: '++id,role,locationId,name',
 
       // Wali Santri
-      guardians: '++id, locationId, name, phone, isActive',
+      guardians: '++id,locationId,name,phone',
 
       // Santri
-      students: '++id, locationId, guardianId, nis, name, gender, isActive, joinDate',
+      students: '++id,locationId,guardianId,nis,name,gender,isActive',
 
       // Ustadz/Guru
-      teachers: '++id, locationId, name, gender, specialization, phone, isActive',
+      teachers: '++id,locationId,name,gender,isActive',
 
       // Kelas
-      classes: '++id, locationId, name, level, isActive',
+      classes: '++id,locationId,name,level,isActive',
 
       // Junction: Santri ↔ Kelas
-      classStudents: '++id, classId, studentId',
+      classStudents: '++id,classId,studentId,locationId',
 
       // Junction: Ustadz ↔ Kelas (teacher per class)
-      classTeachers: '++id, classId, teacherId, isPrimary',
+      classTeachers: '++id,classId,teacherId,isPrimary,locationId',
 
       // Jadwal mingguan
-      schedules: '++id, classId, teacherId, day',
+      schedules: '++id,locationId,classId,teacherId,day',
 
       // Tahun ajaran
-      academicYears: '++id, locationId, name, isActive',
+      academicYears: '++id,locationId,name,isActive',
 
       // Kategori kurikulum (Iqro, Hafalan, dll)
-      curriculumCategories: '++id, locationId, name, sortOrder, isActive',
+      curriculumCategories: '++id,locationId,name,sortOrder',
 
       // Materi per kategori
-      curriculumMaterials: '++id, categoryId, title, sortOrder, isActive',
+      curriculumMaterials: '++id,categoryId,title',
 
       // Sesi absensi (1 sesi = 1 pertemuan)
-      classSessions: '++id, classId, teacherId, sessionDate',
+      classSessions: '++id,locationId,classId,teacherId,sessionDate',
 
       // Absensi per siswa per sesi
-      attendances: '++id, sessionId, studentId, status',
+      attendances: '++id,locationId,sessionId,studentId,status',
 
       // Progress hafalan
-      hafalanProgress: '++id, studentId, teacherId, surahNumber, type, grade, recordedAt',
+      hafalanProgress: '++id,locationId,studentId,teacherId,surahNumber,type,grade,recordedAt',
 
       // Progress Iqro
-      iqroProgress: '++id, studentId, teacherId, jilid, page, grade, recordedAt',
+      iqroProgress: '++id,locationId,studentId,teacherId,jilid,page,grade,recordedAt',
 
       // Tipe SPP/Infaq
-      sppTypes: '++id, locationId, name, amount, isRecurring, isActive',
+      sppTypes: '++id,locationId,name,amount',
 
       // Tagihan per siswa per bulan
-      sppBills: '++id, studentId, sppTypeId, billMonth, status, amount, paidAmount',
+      sppBills: '++id,locationId,studentId,sppTypeId,billMonth,status,amount,paidAmount',
 
       // Pembayaran
-      payments: '++id, billId, studentId, amount, method, paidAt',
+      payments: '++id,billId,studentId,amount,method,paidAt',
 
       // Arus kas
-      cashFlows: '++id, locationId, type, category, amount, transactionDate',
+      cashFlows: '++id,locationId,type,category,amount,transactionDate',
 
       // Proyek
-      projects: '++id, locationId, title, status, priority',
+      projects: '++id,locationId,title,status,priority',
 
       // Task dalam proyek
-      projectTasks: '++id, projectId, title, status',
+      projectTasks: '++id,projectId,title,status',
 
       // Notifikasi
-      notifications: '++id, userId, type, title, isRead, createdAt',
+      notifications: '++id,locationId,userId,type,title,isRead,createdAt',
 
       // Pengaturan app
-      appSettings: '++id, locationId, key, value',
+            appSettings: '++id,locationId,key,value',
 
-      // ─── Sync Queue (untuk Supabase sync) ─────────────────────────
-      syncQueue: '++id, table, recordId, operation, createdAt, syncedAt'
+            // Audit log pemrosesan data (UU 27/2022 Pasal 31)
+                        auditLog: '++id,locationId,userId,userRole,action,entity,entityId,createdAt',
+
+                        // Laporan perlindungan anak (UU 35/2014)
+                        protectionReports: '++id,locationId,studentId,type,status,reporterRole,createdAt'
+                      });
+
+    // Declare only changed indexes for the v7 upgrade; unchanged tables inherit v6.
+    this.version(7).stores({
+      classStudents: '++id,classId,studentId,locationId',
+      classTeachers: '++id,classId,teacherId,isPrimary,locationId',
+      schedules: '++id,locationId,classId,teacherId,day',
+      attendances: '++id,locationId,sessionId,studentId,status'
+    });
+
+    // Backfill denormalized location fields without deleting user data.
+    this.version(7).upgrade(async tx => {
+      const locations = await tx.table('locations').toArray();
+      const defaultLocationId = locations.length === 1 ? locations[0].id : null;
+      const classes = await tx.table('classes').toArray();
+      const classById = new Map(classes.map(c => [c.id, c]));
+      const students = await tx.table('students').toArray();
+      const studentById = new Map(students.map(s => [s.id, s]));
+      const teachers = await tx.table('teachers').toArray();
+      const teacherById = new Map(teachers.map(t => [t.id, t]));
+      const sessions = await tx.table('classSessions').toArray();
+      const sessionById = new Map(sessions.map(s => [s.id, s]));
+      const classStudents = await tx.table('classStudents').toArray();
+      for (const row of classStudents) {
+        const cls = classById.get(row.classId);
+        const student = studentById.get(row.studentId);
+        await tx.table('classStudents').update(row.id, { locationId: cls?.locationId || student?.locationId || defaultLocationId });
+      }
+      const classTeachers = await tx.table('classTeachers').toArray();
+      for (const row of classTeachers) {
+        const cls = classById.get(row.classId);
+        const teacher = teacherById.get(row.teacherId);
+        await tx.table('classTeachers').update(row.id, { locationId: cls?.locationId || teacher?.locationId || defaultLocationId });
+      }
+      const schedules = await tx.table('schedules').toArray();
+      for (const row of schedules) {
+        const cls = classById.get(row.classId);
+        const teacher = teacherById.get(row.teacherId);
+        await tx.table('schedules').update(row.id, { locationId: cls?.locationId || teacher?.locationId || defaultLocationId });
+      }
+      const attendances = await tx.table('attendances').toArray();
+      for (const row of attendances) {
+        const session = sessionById.get(row.sessionId);
+        const student = studentById.get(row.studentId);
+        await tx.table('attendances').update(row.id, { locationId: session?.locationId || student?.locationId || defaultLocationId });
+      }
     });
 
     // ─── Model Classes (opsional, untuk type-checking) ───────────────
@@ -118,9 +173,10 @@ class TPADatabase extends Dexie {
     this.projects = this.table('projects');
     this.projectTasks = this.table('projectTasks');
     this.notifications = this.table('notifications');
-    this.appSettings = this.table('appSettings');
-    this.syncQueue = this.table('syncQueue');
-  }
+        this.appSettings = this.table('appSettings');
+        this.auditLog = this.table('auditLog');
+                this.protectionReports = this.table('protectionReports');
+                  }
 
   // ─── Version Migration (kalau ada schema change) ─────────────────
   // Contoh: jika DB_VERSION naik ke 2

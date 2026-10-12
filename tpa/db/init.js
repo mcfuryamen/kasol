@@ -3,7 +3,7 @@
  * Dijalankan di setiap halaman:
  *   1. Buka DB
  *   2. Verifikasi schema indexes
- *   3. Seed demo data kalau kosong
+ *   3. Seed demo data hanya jika mode demo eksplisit
  *   4. Verifikasi session user
  */
 import { db } from './dexie.js';
@@ -20,8 +20,10 @@ export async function initDB() {
     await db.open();
     console.log('[init] Database opened:', db.name, 'v' + db.verno);
 
-    // Seed demo data jika DB kosong
-    await seedDemoData();
+    // Demo fixtures hanya boleh aktif secara eksplisit saat development/QA.
+    if (globalThis.__TPA_DEMO_MODE__ === true || new URLSearchParams(location.search).has('demo')) {
+      await seedDemoData();
+    }
 
     // Tandai sudah di-init (per browser, per session)
     sessionStorage.setItem(DB_INIT_KEY, '1');
@@ -102,7 +104,7 @@ export function requireAuth(...allowedRoles) {
 }
 
 export function redirectToLogin() {
-  window.location.href = 'index.html';
+  window.location.href = 'login.html';
 }
 
 export function redirectByRole(role) {
@@ -114,12 +116,57 @@ export function redirectByRole(role) {
   window.location.href = pages[role] || 'index.html';
 }
 
+  /**
+   * Verifikasi session terhadap tabel users (cegah pemalsuan localStorage).
+   * Mengembalikan user valid dari DB, atau null jika session tidak sah.
+   */
+  export async function verifySession() {
+    const stored = getSessionUser();
+    if (!stored || !stored.id) return null;
+    try {
+      const u = await db.users.get(stored.id);
+      if (!u || !u.isActive || u.role !== stored.role || u.locationId !== stored.locationId) {
+        clearSessionUser();
+        return null;
+      }
+      const location = await db.locations.get(u.locationId);
+      if (!location || location.isActive === false) { clearSessionUser(); return null; }
+      const canonical = { id: u.id, name: u.name, role: u.role, locationId: u.locationId, locationName: location.name };
+      if (u.role === 'wali') {
+        const guardian = await db.guardians.get(u.guardianId);
+        if (!guardian || guardian.isActive === false || guardian.locationId !== u.locationId) { clearSessionUser(); return null; }
+        canonical.guardianId = guardian.id;
+      } else if (u.role === 'ustadz') {
+        const teacher = await db.teachers.get(u.teacherId);
+        if (!teacher || teacher.isActive === false || teacher.locationId !== u.locationId) { clearSessionUser(); return null; }
+        canonical.teacherId = teacher.id;
+      }
+      setSessionUser(canonical);
+      return canonical;
+    } catch (e) {
+      console.warn('[auth] verifikasi session gagal:', e);
+      clearSessionUser();
+      return null;
+    }
+  }
+
 /* =========================================================
    Utility functions (shared, not tied to a specific layer)
    ========================================================= */
 
 export function today() {
-  return new Date().toISOString().split('T')[0];
+  const d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+}
+
+export function nowLocal() {
+  const d = new Date();
+  return today() + 'T' + String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0') + ':' + String(d.getSeconds()).padStart(2, '0');
+}
+
+export function monthLocal() {
+  const d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
 }
 
 export function fd(dateStr) {
@@ -144,8 +191,79 @@ export function ini(name) {
   return (name || '?').split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase();
 }
 
+/* =========================================================
+   Enkripsi data sensitif (UU 27/2022 Pasal 35)
+   - Telepon/NIS dienkripsi AES-GCM saat disimpan (at-rest)
+   - Kunci disimpan di tabel settings (key 'cryptoKey')
+   - Tampilan list memakai masking (tidak menampilkan penuh)
+   ========================================================= */
+
+// Masking untuk tampilan: 081234567890 -> 0812*****890
+export function maskPhone(phone) {
+  if (!phone) return '-';
+  const p = String(phone);
+  if (p.length <= 6) return p[0] + '****';
+  return p.slice(0, 4) + '*****' + p.slice(-3);
+}
+
+// Masking NIS: TPA-2026-001 -> TPA-2026-***
+export function maskNis(nis) {
+  if (!nis) return '-';
+  const s = String(nis);
+  if (s.length <= 4) return '***';
+  return s.slice(0, -3) + '***';
+}
+
+// Ambil atau buat kunci AES-GCM (disimpan base64 di settings)
+async function getCryptoKey() {
+  const row = await db.settings.get('cryptoKey');
+  if (row && row.value) {
+    const raw = Uint8Array.from(atob(row.value), c => c.charCodeAt(0));
+    return crypto.subtle.importKey('raw', raw, 'AES-GCM', false, ['encrypt', 'decrypt']);
+  }
+  const key = await crypto.subtle.generateKey({ name: 'AES-GCM', length: 256 }, true, ['encrypt', 'decrypt']);
+  const raw = await crypto.subtle.exportKey('raw', key);
+  const b64 = btoa(String.fromCharCode(...new Uint8Array(raw)));
+  await db.settings.put({ key: 'cryptoKey', value: b64 });
+  return key;
+}
+
+// Enkripsi teks -> "ivBase64:dataBase64" (atau null jika gagal)
+export async function encryptText(plain) {
+  if (!plain) return plain;
+  try {
+    const key = await getCryptoKey();
+    const iv = crypto.getRandomValues(new Uint8Array(12));
+    const enc = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, new TextEncoder().encode(String(plain)));
+    return btoa(String.fromCharCode(...iv)) + ':' + btoa(String.fromCharCode(...new Uint8Array(enc)));
+  } catch (e) {
+    console.error('[crypto] enkripsi gagal:', e);
+    throw new Error('Data sensitif tidak dapat dienkripsi. Penyimpanan dibatalkan.');
+  }
+}
+
+// Dekripsi teks hasil encryptText (atau kembalikan apa adanya jika bukan cipher)
+export async function decryptText(cipher) {
+  if (!cipher || !String(cipher).includes(':')) return cipher;
+  try {
+    const [ivB64, dataB64] = String(cipher).split(':');
+    const key = await getCryptoKey();
+    const iv = Uint8Array.from(atob(ivB64), c => c.charCodeAt(0));
+    const data = Uint8Array.from(atob(dataB64), c => c.charCodeAt(0));
+    const dec = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, data);
+    return new TextDecoder().decode(dec);
+  } catch (e) {
+    console.error('[crypto] dekripsi gagal:', e);
+    throw new Error('Data sensitif tidak dapat didekripsi.');
+  }
+}
+
 export function $id(id) {
   return document.getElementById(id);
+}
+
+export function escapeHtml(value) {
+  return String(value ?? '').replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
 }
 
 export function el(tag, attrs, children) {
@@ -173,7 +291,8 @@ export function snack(type, message) {
     class: 'snack ' + type,
     html: icons[type] + ' ' + message
   });
-  document.body.appendChild(s);
+  const wrap = $id('snacks') || document.body;
+  wrap.appendChild(s);
   setTimeout(() => s.remove(), 3500);
 }
 
@@ -216,8 +335,9 @@ export async function delRec(table, id, label) {
   await db[table].delete(id);
   snack('ok', label + ' dihapus');
   closeSheet();
-  // Trigger render callback if defined
+  // Trigger render callback if defined, else fallback ke render() global
   if (typeof window._renderCallback === 'function') window._renderCallback();
+  else if (typeof window.render === 'function') window.render();
 }
 
 export function setRenderCallback(fn) {
@@ -226,4 +346,30 @@ export function setRenderCallback(fn) {
 
 export function clearRenderCallback() {
   window._renderCallback = null;
+}
+
+/**
+ * Catat aktivitas pemrosesan data ke audit log (UU 27/2022 Pasal 31).
+ * Dipanggil pada operasi create/update/delete data pribadi.
+ * @param {string} action  - 'create' | 'update' | 'delete' | 'export' | 'consent' | 'access'
+ * @param {string} entity  - nama entitas, mis. 'students', 'guardians'
+ * @param {number|string} [entityId] - id record
+ * @param {string} [detail] - keterangan tambahan
+ */
+export async function logAudit(action, entity, entityId, detail) {
+  try {
+    const user = getSessionUser();
+    await db.auditLog.add({
+      locationId: user?.locationId || null,
+      userId: user?.id || null,
+      userRole: user?.role || 'system',
+      action,
+      entity,
+      entityId: entityId ?? null,
+      detail: detail || '',
+      createdAt: nowLocal()
+    });
+  } catch (e) {
+    console.warn('[audit] gagal mencatat:', e);
+  }
 }

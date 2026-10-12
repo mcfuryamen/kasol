@@ -33,11 +33,11 @@ export async function deleteGuardian(id) {
 
 /** Ambil santri2 wali ini */
 export async function getGuardianStudents(guardianId) {
-  const links = await db.classStudents.where('guardianId').equals(guardianId).toArray();
-  if (!links.length) return [];
-  const sids = [...new Set(links.map(l => l.studentId))];
-  const students = await db.students.bulkGet(sids);
-  return students.filter(Boolean);
+  const guardian = await db.guardians.get(guardianId);
+  if (!guardian || guardian.isActive === false) return [];
+  return db.students.where('guardianId').equals(guardianId)
+    .and(s => s.locationId === guardian.locationId && s.isActive !== false)
+    .toArray();
 }
 
 /** Get wali + statistik santrinya */

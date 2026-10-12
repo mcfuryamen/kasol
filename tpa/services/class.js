@@ -54,7 +54,11 @@ export async function assignStudentToClass(studentId, classId) {
     .and(cs => cs.classId === classId)
     .first();
   if (existing) return existing.id;
-  return db.classStudents.add({ studentId, classId });
+  const [student, cls] = await Promise.all([db.students.get(studentId), db.classes.get(classId)]);
+  if (!student || !cls || student.locationId !== cls.locationId || student.isActive === false || cls.isActive === false) {
+    throw new Error('Santri dan kelas harus berada di lokasi yang sama dan aktif.');
+  }
+  return db.classStudents.add({ studentId, classId, locationId: cls.locationId });
 }
 
 /** Remove siswa dari kelas */
@@ -72,7 +76,11 @@ export async function assignTeacherToClass(teacherId, classId, isPrimary = false
     .and(ct => ct.classId === classId)
     .first();
   if (existing) return existing.id;
-  return db.classTeachers.add({ teacherId, classId, isPrimary });
+  const [teacher, cls] = await Promise.all([db.teachers.get(teacherId), db.classes.get(classId)]);
+  if (!teacher || !cls || teacher.locationId !== cls.locationId || teacher.isActive === false || cls.isActive === false) {
+    throw new Error('Guru dan kelas harus berada di lokasi yang sama dan aktif.');
+  }
+  return db.classTeachers.add({ teacherId, classId, isPrimary, locationId: cls.locationId });
 }
 
 /** Remove ustadz dari kelas */

@@ -27,15 +27,17 @@ export async function deleteSppType(id) {
 
 /** Buat tagihan SPP untuk satu Santi */
 export async function createSppBill(studentId, sppTypeId, billMonth, dueDate, amount) {
-  return db.sppBills.add({
-    studentId, sppTypeId, billMonth, dueDate,
-    amount, paidAmount: 0, status: 'pending', isActive: true
-  });
+  const [student, type] = await Promise.all([db.students.get(studentId), db.sppTypes.get(sppTypeId)]);
+  if (!student || !type || student.locationId !== type.locationId) throw new Error('Santri dan tipe SPP tidak valid');
+  return db.sppBills.add({ locationId: student.locationId, studentId, sppTypeId, billMonth, dueDate, amount, paidAmount: 0, status: 'pending', isActive: true });
 }
 
 /** Bulk buat tagihan bulanan untuk semua Santi di satu kelas */
 export async function bulkCreateMonthlyBills(classId, sppTypeId, billMonth, dueDate, amount) {
-  const links = await db.classStudents.where('classId').equals(classId).toArray();
+  const cls = await db.classes.get(classId);
+  const type = await db.sppTypes.get(sppTypeId);
+  if (!cls || !type || cls.locationId !== type.locationId) throw new Error('Kelas dan tipe SPP tidak valid');
+  const links = await db.classStudents.where('classId').equals(classId).and(l => l.locationId == null || l.locationId === cls.locationId).toArray();
   const sids = [...new Set(links.map(l => l.studentId))];
   const existing = await db.sppBills
     .where('studentId').anyOf(sids)
@@ -44,7 +46,7 @@ export async function bulkCreateMonthlyBills(classId, sppTypeId, billMonth, dueD
   const existSids = new Set(existing.map(b => b.studentId));
   const newSids = sids.filter(sid => !existSids.has(sid));
   const ops = newSids.map(sid => ({
-    studentId: sid, sppTypeId, billMonth, dueDate,
+    locationId: cls.locationId, studentId: sid, sppTypeId, billMonth, dueDate,
     amount, paidAmount: 0, status: 'pending', isActive: true
   }));
   if (ops.length) await db.sppBills.bulkAdd(ops);
@@ -77,16 +79,21 @@ export async function getClassBills(classId) {
 
 /** Bayar tagihan */
 export async function payBill(billId, amount, paymentDate, collectorId) {
-  const bill = await db.sppBills.get(billId);
-  if (!bill) throw new Error('Tagihan tidak ditemukan');
-  const newPaid = bill.paidAmount + amount;
-  const newStatus = newPaid >= bill.amount ? 'paid' : 'partial';
-  await db.sppBills.update(billId, { paidAmount: newPaid, status: newStatus });
-  await db.payments.add({
-    billId, studentId: bill.studentId,
-    amount, paymentDate, collectorId, method: 'cash'
+  const value = Number(amount);
+  if (!Number.isFinite(value) || value <= 0) throw new Error('Nominal pembayaran tidak valid');
+  return db.transaction('rw', db.sppBills, db.payments, async () => {
+    const bill = await db.sppBills.get(billId);
+    if (!bill || bill.isActive === false) throw new Error('Tagihan tidak ditemukan');
+    const student = await db.students.get(bill.studentId);
+    if (!student || student.locationId !== bill.locationId) throw new Error('Tagihan tidak valid');
+    const remaining = Math.max(0, Number(bill.amount) - Number(bill.paidAmount || 0));
+    if (value > remaining) throw new Error('Pembayaran melebihi sisa tagihan');
+    const newPaid = Number(bill.paidAmount || 0) + value;
+    const newStatus = newPaid >= Number(bill.amount) ? 'paid' : 'partial';
+    await db.sppBills.update(billId, { paidAmount: newPaid, status: newStatus });
+    await db.payments.add({ billId, studentId: bill.studentId, locationId: bill.locationId, amount: value, paymentDate, collectorId, method: 'cash' });
+    return db.sppBills.get(billId);
   });
-  return db.sppBills.get(billId);
 }
 
 /** Hapus tagihan */

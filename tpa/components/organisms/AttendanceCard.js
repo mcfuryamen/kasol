@@ -2,7 +2,7 @@
  * Organism: AttendanceCard
  * Card absensi untuk guru - tampilkan daftar siswa dengan toggle hadir/sakit/izin/alfa
  */
-import { el } from '../../db/init.js';
+import { el, today } from '../../db/init.js';
 import { getStudentsByClass } from '../../services/student.js';
 import { getSessionAttendances } from '../../services/attendance.js';
 import { recordAttendance } from '../../services/attendance.js';
@@ -25,7 +25,7 @@ export function AttendanceCard({ classId, sessionDate = null }) {
   async function load() {
     list.innerHTML = '<div class="p-4 text-center text-gray-400">Memuat...</div>';
     const students = await getStudentsByClass(classId);
-    const sessionId = sessionDate || new Date().toISOString().split('T')[0];
+    const sessionId = sessionDate || today();
     const attendances = await getSessionAttendances(sessionId);
     const attMap = {};
     attendances.forEach(a => { attMap[a.student_id] = a; });

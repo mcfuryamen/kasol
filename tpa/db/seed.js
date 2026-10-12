@@ -5,9 +5,22 @@
  */
 import { db } from './dexie.js';
 
+// Tanggal lokal (hindari bug UTC toISOString)
+function localDate() {
+  const d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+}
+function localDateTime(ts) {
+  const d = new Date(ts);
+  return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0') +
+    'T' + String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0') + ':' + String(d.getSeconds()).padStart(2, '0');
+}
+
 export async function seedDemoData() {
   // ─── Cegah double-seed ────────────────────────────────────────
-  if (await db.locations.count() > 0) {
+  // Skip hanya jika sudah ada santri (data penuh). Lokasi/user saja
+  // (state parsial dari ensureSeed lama) tetap di-seed ulang.
+  if (await db.students.count() > 0) {
     console.log('[seed] Data already exists, skipping seed.');
     // DB lama (pra-tabel-users) mungkin belum punya akun user — migrasi
     await ensureUsersSeeded();
@@ -16,14 +29,20 @@ export async function seedDemoData() {
 
   console.log('[seed] Seeding demo data...');
 
-  // ─── 1. Lokasi TPA ───────────────────────────────────────────
-  const lid = await db.locations.add({
-    name: 'TPA Al-Hikmah',
-    address: 'Jl. Masjid No. 1, Kampung Bahagia',
-    phone: '08816566935',
-    headName: 'Ustadz Ahmad',
-    isActive: true
-  });
+  // ─── 1. Lokasi TPA (reuse jika sudah ada) ─────────────────────
+  let lid;
+  const existingLocs = await db.locations.toArray();
+  if (existingLocs.length) {
+    lid = existingLocs[0].id;
+  } else {
+    lid = await db.locations.add({
+      name: 'TPA Al-Hikmah',
+      address: 'Jl. Masjid No. 1, Kampung Bahagia',
+      phone: '08816566935',
+      headName: 'Ustadz Ahmad',
+      isActive: true
+    });
+  }
 
   // ─── 2. Tahun Ajaran ──────────────────────────────────────────
   await db.academicYears.add({
@@ -89,16 +108,18 @@ export async function seedDemoData() {
   const g4 = await db.guardians.add({ locationId: lid, name: 'Ibu Siti', relation: 'ibu', phone: '081234567893', address: 'Kampung Harmoni', isActive: true });
 
   // ─── 6. Ustadz ────────────────────────────────────────────────
-  const t1 = await db.teachers.add({ locationId: lid, name: 'Ustadz Hasan', gender: 'L', phone: '081111222333', specialization: 'Hafalan', isActive: true });
-  const t2 = await db.teachers.add({ locationId: lid, name: 'Ustadzah Maryam', gender: 'P', phone: '081444555666', specialization: 'Iqro', isActive: true });
+  const t1 = await db.teachers.add({ locationId: lid, name: 'Ustadz Hasan', gender: 'L', phone: '081111222333', specialization: 'Hafalan', qualification: 'diniyah_atas', tartil: 'lancar', isActive: true });
+    const t2 = await db.teachers.add({ locationId: lid, name: 'Ustadzah Maryam', gender: 'P', phone: '081444555666', specialization: 'Iqro', qualification: 'diniyah_atas', tartil: 'lancar', isActive: true });
 
   // ─── 7. User accounts ─────────────────────────────────────────
-  await db.users.bulkAdd([
-    { name: 'Admin TPA', role: 'admin', locationId: lid, isActive: true },
-    { name: 'Ustadz Hasan', role: 'ustadz', locationId: lid, teacherId: t1, isActive: true },
-    { name: 'Ustadzah Maryam', role: 'ustadz', locationId: lid, teacherId: t2, isActive: true },
-    { name: 'Bapak Ahmad', role: 'wali', locationId: lid, guardianId: g1, isActive: true }
-  ]);
+    if (await db.users.count() === 0) {
+      await db.users.bulkAdd([
+        { name: 'Admin TPA', role: 'admin', locationId: lid, isActive: true },
+        { name: 'Ustadz Hasan', role: 'ustadz', locationId: lid, teacherId: t1, isActive: true },
+        { name: 'Ustadzah Maryam', role: 'ustadz', locationId: lid, teacherId: t2, isActive: true },
+        { name: 'Bapak Ahmad', role: 'wali', locationId: lid, guardianId: g1, isActive: true }
+      ]);
+    }
 
   // ─── 8. Kelas ─────────────────────────────────────────────────
   const c1 = await db.classes.add({ locationId: lid, name: 'Iqro 1-2', level: 'iqro_1', maxStudents: 20, room: 'Ruang 1', isActive: true });
@@ -165,7 +186,8 @@ export async function seedDemoData() {
     for (let j = 0; j < 3; j++) {
       const surah = surahs[Math.floor(Math.random() * surahs.length)];
       await db.hafalanProgress.add({
-        studentId: s.id,
+              locationId: lid,
+              studentId: s.id,
         teacherId: s.gender === 'L' ? t1 : t2,
         surahNumber: surah,
         surahName: getSurahName(surah),
@@ -174,15 +196,15 @@ export async function seedDemoData() {
         type: 'hafalan',
         grade: grades[Math.floor(Math.random() * grades.length)],
         notes: '',
-        recordedAt: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString()
+        recordedAt: localDateTime(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000)
       });
     }
   }
 
   // ─── 13. Sample class sessions & attendance ─────────────────────
-  const today = new Date().toISOString().split('T')[0];
-  const session1 = await db.classSessions.add({ classId: c1, teacherId: t2, sessionDate: today, startTime: '15:30' });
-  const session2 = await db.classSessions.add({ classId: c2, teacherId: t1, sessionDate: today, startTime: '17:00' });
+  const today = localDate();
+  const session1 = await db.classSessions.add({ locationId: lid, classId: c1, teacherId: t2, sessionDate: today, startTime: '15:30' });
+    const session2 = await db.classSessions.add({ locationId: lid, classId: c2, teacherId: t1, sessionDate: today, startTime: '17:00' });
 
   const cs1Students = await db.classStudents.where('classId').equals(c1).toArray();
   const statuses = ['hadir', 'izin', 'sakit', 'alpha'];
@@ -206,7 +228,8 @@ export async function seedDemoData() {
   for (const s of students) {
     for (let m = 7; m <= 9; m++) {
       await db.sppBills.add({
-        studentId: s.id,
+              locationId: lid,
+              studentId: s.id,
         sppTypeId: 1,
         billMonth: `2026-${String(m).padStart(2, '0')}`,
         status: m < 9 ? 'paid' : 'pending',
@@ -224,7 +247,57 @@ export async function seedDemoData() {
     { locationId: lid, type: 'keluar', category: 'Gaji Guru', amount: 500000, transactionDate: today, description: 'Gaji ustadz bulan ini' }
   ]);
 
-  console.log('[seed] Demo data seeded successfully.');
+    // ─── 16. Data uji live (demo) ──────────────────────────────────
+    // Santri tambahan dengan persetujuan wali (UU 27/2022)
+    const siti = await db.students.add({
+      locationId: lid, guardianId: g1, nis: 'TPA-2026-013', name: 'Siti Nurhaliza',
+      gender: 'P', birthDate: '2015-03-12', address: 'Jl. Melati No. 5 Solo', phone: '081234567890',
+      joinDate: today, isActive: true,
+      consentAt: localDateTime(Date.now()), consentBy: 'Bapak Ahmad', consentGuardianId: g1
+    });
+    await db.classStudents.add({ classId: c1, studentId: siti });
+
+    // Ustadz tambahan (kompetensi tartil)
+    const t3 = await db.teachers.add({ locationId: lid, name: 'Ustadz Baru', gender: 'L', phone: '081298765432', specialization: 'Tahfidz', qualification: 'diniyah_atas', tartil: 'lancar', isActive: true });
+
+    // Hafalan setoran hari ini (Muhammad Rizki)
+    const rizki = students[0];
+    await db.hafalanProgress.add({
+      locationId: lid, studentId: rizki.id, teacherId: t1,
+      surahNumber: 112, surahName: 'Al-Ikhlas', ayatFrom: 1, ayatTo: 3,
+      type: 'ziyadah', grade: 'mumtaz', notes: 'Setoran baru',
+      recordedAt: localDateTime(Date.now())
+    });
+
+    // Bayar SPP Muhammad Rizki 2026-09
+    const rizkiBill = await db.sppBills.where('studentId').equals(rizki.id).and(b => b.billMonth === '2026-09').first();
+    if (rizkiBill) {
+      await db.payments.add({ billId: rizkiBill.id, studentId: rizki.id, amount: 50000, method: 'tunai', paidAt: localDateTime(Date.now()) });
+      await db.sppBills.update(rizkiBill.id, { paidAmount: 50000, status: 'paid' });
+    }
+
+    // Kas masuk donasi
+    await db.cashFlows.add({ locationId: lid, type: 'masuk', category: 'Donasi', amount: 100000, transactionDate: today, description: 'Donasi pembangunan' });
+
+    // Proyek
+    await db.projects.add({ locationId: lid, title: 'Renovasi Masjid', description: 'Perbaikan atap dan cat', status: 'in_progress', priority: 'high', dueDate: '2026-12-31' });
+
+    // Lokasi kedua
+    await db.locations.add({ name: 'TPA An-Nur', address: 'Jl. Melati No. 2 Solo', phone: '081234567891', headName: 'Ustadz Hasan', isActive: true });
+
+    // Laporan perlindungan anak
+    await db.protectionReports.add({
+      locationId: lid, studentId: rizki.id, studentName: 'Muhammad Rizki',
+      type: 'perundungan', description: 'Diejek teman saat jam istirahat',
+      status: 'reported', handlingNote: 'Dilaporkan ke wali kelas',
+      reporterRole: 'admin', reporterName: 'Admin TPA',
+      createdAt: localDateTime(Date.now()), updatedAt: localDateTime(Date.now())
+    });
+
+    // Progres Iqro (Muhammad Rizki)
+    await db.iqroProgress.add({ locationId: lid, studentId: rizki.id, teacherId: t1, jilid: 2, page: 5, grade: 'lancar', notes: 'Lancar jilid 2', recordedAt: localDateTime(Date.now()) });
+
+    console.log('[seed] Demo data seeded successfully.');
 }
 
 function getSurahName(n) {

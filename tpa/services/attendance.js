@@ -7,8 +7,15 @@ import { querySessionAttendances, queryStudentAttendances } from '../db/dexie.js
 
 /** Buat sesi kelas baru */
 export async function createSession(classId, teacherId, sessionDate, startTime) {
+  const [cls, teacher] = await Promise.all([db.classes.get(classId), db.teachers.get(teacherId)]);
+  if (!cls || !teacher || cls.locationId !== teacher.locationId || cls.isActive === false || teacher.isActive === false) {
+    throw new Error('Guru dan kelas tidak valid.');
+  }
+  const assigned = await db.classTeachers.where('teacherId').equals(teacherId)
+    .and(link => link.classId === classId && (link.locationId == null || link.locationId === cls.locationId)).first();
+  if (!assigned) throw new Error('Guru tidak ditugaskan ke kelas ini.');
   const id = await db.classSessions.add({
-    classId, teacherId, sessionDate, startTime,
+    locationId: cls.locationId, classId, teacherId, sessionDate, startTime,
     status: 'planned'
   });
   return id;
@@ -26,7 +33,8 @@ export async function getClassSessions(classId) {
 
 /** Ambil sesi hari ini untuk kelas */
 export async function getTodaySessions(classId) {
-  const today = new Date().toISOString().split('T')[0];
+  const d = new Date();
+  const today = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
   return db.classSessions
     .where('classId').equals(classId)
     .and(s => s.sessionDate === today)
@@ -35,15 +43,21 @@ export async function getTodaySessions(classId) {
 
 /** Catat kehadiran */
 export async function recordAttendance(sessionId, studentId, status, notes = '') {
+  const session = await db.classSessions.get(sessionId);
+  const student = await db.students.get(studentId);
+  if (!session || !student || session.locationId !== student.locationId) throw new Error('Sesi dan santri tidak valid.');
+  const member = await db.classStudents.where('classId').equals(session.classId)
+    .and(link => link.studentId === studentId && (link.locationId == null || link.locationId === session.locationId)).first();
+  if (!member) throw new Error('Santri bukan anggota kelas sesi ini.');
   const existing = await db.attendances
     .where('sessionId').equals(sessionId)
     .and(a => a.studentId === studentId)
     .first();
   if (existing) {
-    await db.attendances.update(existing.id, { status, notes });
+    await db.attendances.update(existing.id, { status, notes, locationId: session.locationId });
     return existing.id;
   }
-  return db.attendances.add({ sessionId, studentId, status, notes });
+  return db.attendances.add({ locationId: session.locationId, sessionId, studentId, status, notes });
 }
 
 /** Bulk record attendance */

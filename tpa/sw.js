@@ -3,7 +3,7 @@
    Cache: HTML asli (self-contained) + Dexie CDN + Google Fonts
    ========================================================================== */
 
-const CACHE_NAME = "tpa-alhikmah-v2";
+const CACHE_NAME = "tpa-alhikmah-v11";
 
 // HTML pages (self-contained, inline CSS+JS)
 const HTML_ASSETS = [
@@ -23,20 +23,27 @@ const PWA_ASSETS = [
   "/favicon.ico",
 ];
 
-// External CDN assets (Dexie) — cache for offline
-const CDN_ASSETS = [
-  "https://unpkg.com/dexie@3.2.7/dist/dexie.min.js",
-  "https://cdn.jsdelivr.net/npm/dexie@3.2.7/dist/dexie.min.js",
+// ESM modules (db layer + page modules) — cache for offline
+const ESM_ASSETS = [
+  "/vendor/dexie.mjs",
+  "/db/dexie.js",
+  "/db/init.js",
+  "/db/seed.js",
+  "/pages/landing/login.js",
+  "/pages/landing/index.js",
+  "/pages/wali/wali.js",
+  "/pages/guru/guru.js",
+  "/pages/admin/admin.js",
 ];
 
-// Install: cache HTML + PWA + CDN assets
+// Install: cache HTML + PWA + ESM assets
 self.addEventListener("install", event => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache =>
-      cache.addAll([...HTML_ASSETS, ...PWA_ASSETS, ...CDN_ASSETS])
+      cache.addAll([...HTML_ASSETS, ...PWA_ASSETS, ...ESM_ASSETS])
     )
   );
-  self.skipWaiting();
+  // Activate only after the app explicitly requests an update, avoiding mid-session takeover.
 });
 
 // Activate: clean old caches
@@ -47,6 +54,10 @@ self.addEventListener("activate", event => {
     )
   );
   self.clients.claim();
+});
+
+self.addEventListener("message", event => {
+  if (event.data === 'SKIP_WAITING') self.skipWaiting();
 });
 
 // Fetch handler
